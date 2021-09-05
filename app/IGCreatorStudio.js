@@ -107,7 +107,7 @@ let page,
           await page.waitForTimeout(1000);
         } while (uploadProgressValue !== "100%");
 
-        console.log("Post upload complete...", uploadProgressValue);
+        console.log("Post upload complete...");
 
         await Helpers.ClickButton(
           page,
@@ -115,10 +115,12 @@ let page,
         );
         await page.keyboard.type(postThis.title, { delay: 80 });
 
-        // await Helpers.ClickButton(
-        //   page,
-        //   `/html/body/div[4]/div/div/div/div[3]/div[2]/button`
-        // );
+        await Helpers.ClickButton(
+          page,
+          `/html/body/div[4]/div/div/div/div[3]/div[2]/button`
+        );
+
+        console.log("Post is ready on IG!");
       } catch (e) {
         console.log("Error occured at CreatorStudio", e);
       }
