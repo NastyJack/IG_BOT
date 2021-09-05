@@ -4,7 +4,7 @@
   "description": "A bot to serve endless content to humans",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node App.js",
     "test": "test"
   },
   "repository": {
