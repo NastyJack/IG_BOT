@@ -25,9 +25,11 @@ findAndPostToIG.makePost = async (req, res, next) => {
 
     console.log("Got processed EligiblePost", EligiblePost);
 
-    await CreatorStudio.RunScript(EligiblePost);
+    if (process.env.NODE_ENV === "PRODUCTION") {
+      await CreatorStudio.RunScript(EligiblePost);
 
-    return res.status(200).send("IG Post made succesfully!");
+      return res.status(200).send("IG Post made succesfully!");
+    } else return res.status(200).send("Reddit post filtered succesfully!");
   } catch (e) {
     if (e === 400)
       return res.status(400).send({

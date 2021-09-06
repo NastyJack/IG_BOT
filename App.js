@@ -10,6 +10,9 @@ app.use(express.json({ limit: "50mb", extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/findAndPostToIG", findAndPostToIG);
+app.use("/", function (req, res) {
+  res.send("Well, hello there...");
+});
 
 app.get("/RedditMedia", function (req, res) {
   const file = `${__dirname.replace(`app`, "")}/localDb/RedditMedia.mp4`;

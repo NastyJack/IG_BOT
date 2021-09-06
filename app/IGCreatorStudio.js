@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core");
 const Helpers = require("../helpers/Helpers");
 
 let page,
@@ -22,10 +22,10 @@ let page,
         password = process.env.IG_PASSWORD;
 
         const browser = await puppeteer.launch({
-          args: ["--no-sandbox"],
-          // headless: true,
-          // // executablePath:
-          // //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          //args: ["--no-sandbox"],
+          headless: false,
+          executablePath:
+            "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
         });
         page = await browser.newPage();
         await page.goto(`https://business.facebook.com/creatorstudio/home 
@@ -103,7 +103,7 @@ let page,
           tries++;
           uploadProgress = await uploadPost[0].getProperty("textContent");
           uploadProgressValue = uploadProgress._remoteObject.value;
-          console.log("value of percent ", uploadProgressValue);
+          console.log("Waiting for upload ", uploadProgressValue);
           if (tries > 60) throw "Failure at post upload";
           await page.waitForTimeout(1000);
         } while (uploadProgressValue !== "100%");
