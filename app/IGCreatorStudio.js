@@ -21,12 +21,18 @@ let page,
         username = process.env.IG_USERNAME;
         password = process.env.IG_PASSWORD;
 
-        const browser = await puppeteer.launch({
-          args: ["--no-sandbox"],
-          headless: true,
-          // executablePath:
-          //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-        });
+        const browser = process.env.ON_HEROKU
+          ? await puppeteer.launch({
+              args: ["--no-sandbox"],
+              headless: true,
+              // executablePath:
+              //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            })
+          : await puppeteer.launch({
+              headless: false,
+              executablePath:
+                "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            });
         page = await browser.newPage();
         await page.goto(`https://business.facebook.com/creatorstudio/home 
       `);

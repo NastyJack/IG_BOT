@@ -1,16 +1,15 @@
+const fs = require("fs");
 let { CreatorStudio } = require("../../app/IGCreatorStudio");
 let Reddit = require("../../app/Reddit");
 let config = require("../../config/Config");
 let subredditArray = config.Subreddits,
-  findAndPostToIG = {};
+  findAndPostToIG = {},
+  localDbPath = process.env.ON_HEROKU
+    ? `${__dirname.replace(`/app\\findAndPostToIG`, ``)}/localDb/LocalDb.json`
+    : `${__dirname.replace(`app\\findAndPostToIG`, ``)}\\localDb\\LocalDb.json`;
 
 findAndPostToIG.makePost = async (req, res, next) => {
   try {
-    console.log(
-      "path at heroku -",
-      `${__dirname.replace(`/app`, ``)}/localDb/LocalDb.json`
-    );
-
     if (process.env.passCode !== req.body.passCode) throw 400;
 
     let EligiblePost, accessToken;
@@ -43,6 +42,41 @@ findAndPostToIG.makePost = async (req, res, next) => {
       });
     else {
       console.log("Error at making IG post ", e);
+      return res.status(500).send({ error: "Internal error", message: e });
+    }
+  }
+};
+
+findAndPostToIG.clearLocalDb = async (req, res, next) => {
+  try {
+    if (process.env.passCode !== req.body.passCode) throw 400;
+
+    let fetchedLocalDb,
+      dateObj = new Date(),
+      today = dateObj.getDate();
+    fetchedLocalDb = JSON.parse(fs.readFileSync(localDbPath, "utf8"));
+    console.log("Before wipe : ", fetchedLocalDb);
+
+    fs.writeFileSync(
+      localDbPath,
+      JSON.stringify({
+        date: today - 1,
+        postDataArray: [],
+      }),
+      "utf8"
+    );
+
+    fetchedLocalDb = JSON.parse(fs.readFileSync(localDbPath, "utf8"));
+    console.log("After wipe : ", fetchedLocalDb);
+    res.status(200).send("LocalDb wiped successfully!");
+  } catch (e) {
+    if (e === 400)
+      return res.status(400).send({
+        error: "Bad Request",
+        message: "Bad Request at findAndPostToIG",
+      });
+    else {
+      console.log("Error at clearing localDb ", e);
       return res.status(500).send({ error: "Internal error", message: e });
     }
   }
