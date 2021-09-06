@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer-core");
+const puppeteer = require("puppeteer");
 const Helpers = require("../helpers/Helpers");
 
 let page,
