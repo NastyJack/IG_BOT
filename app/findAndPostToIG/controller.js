@@ -6,6 +6,11 @@ let subredditArray = config.Subreddits,
 
 findAndPostToIG.makePost = async (req, res, next) => {
   try {
+    console.log(
+      "path at heroku -",
+      `${__dirname} <== and path ==> \\localDb\\LocalDb.json`
+    );
+
     if (process.env.passCode !== req.body.passCode) throw 400;
 
     let EligiblePost, accessToken;

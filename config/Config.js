@@ -20,6 +20,7 @@ module.exports = {
     "blackmagicfuckery",
     "ContagiousLaughter",
     "dumbasseswithlighters",
+    "eyebleach",
     "fuckyouinparticular",
     "funny",
     "funnyvideos",

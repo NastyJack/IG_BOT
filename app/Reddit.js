@@ -6,10 +6,7 @@ let Reddit = {},
   dateObj = new Date(),
   today = dateObj.getDate(),
   localDbPath = `${__dirname.replace(`//app`, ``)}\\localDb\\LocalDb.json`;
-console.log(
-  "path at heroku -",
-  `${__dirname} <== and path ==> \\localDb\\LocalDb.json`
-);
+
 Reddit.GenerateAccessToken = async function () {
   try {
     let url,
