@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteerx`x");
 const Helpers = require("../helpers/Helpers");
 
 let page,
@@ -20,7 +20,7 @@ let page,
       try {
         username = process.env.IG_USERNAME;
         password = process.env.IG_PASSWORD;
-
+        console.log("Running Puppeteer..");
         const browser = process.env.ON_HEROKU
           ? await puppeteer.launch({
               args: ["--no-sandbox", "--disable-setuid-sandbox"],
