@@ -7,8 +7,6 @@ const ffmpegGIF = require("fluent-ffmpeg")().setFfmpegPath(
   ffmpegInstaller.path
 );
 
-const util = require("util");
-const stream = require("stream");
 const fs = require("fs");
 
 const proc = new ffmpeg(["-preset ultrafast -threads 0"]);
