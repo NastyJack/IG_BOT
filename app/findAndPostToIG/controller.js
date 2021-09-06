@@ -13,6 +13,8 @@ findAndPostToIG.makePost = async (req, res, next) => {
   try {
     if (process.env.passCode !== req.body.passCode) throw 400;
 
+    makePost();
+
     if (process.env.NODE_ENV === "PRODUCTION")
       return res.status(200).send("IG Post procedure initiated...");
     else return res.status(200).send("Please view console for debugging.");
