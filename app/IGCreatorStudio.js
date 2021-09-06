@@ -23,10 +23,8 @@ let page,
 
         const browser = process.env.ON_HEROKU
           ? await puppeteer.launch({
-              args: ["--no-sandbox"],
+              args: ["--no-sandbox", "--disable-setuid-sandbox"],
               headless: true,
-              // executablePath:
-              //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
             })
           : await puppeteer.launch({
               headless: false,
