@@ -5,7 +5,7 @@ let config = require("../../config/Config");
 let subredditArray = config.Subreddits,
   findAndPostToIG = {},
   localDbPath = process.env.ON_HEROKU
-    ? `${__dirname.replace(`/app\\findAndPostToIG`, ``)}/localDb/LocalDb.json`
+    ? `${__dirname.replace(`/app/findAndPostToIG`, ``)}/localDb/LocalDb.json`
     : `${__dirname.replace(`app\\findAndPostToIG`, ``)}\\localDb\\LocalDb.json`;
 
 findAndPostToIG.makePost = async (req, res, next) => {
