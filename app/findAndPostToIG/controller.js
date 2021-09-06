@@ -49,6 +49,8 @@ findAndPostToIG.makePost = async (req, res, next) => {
 
 findAndPostToIG.clearLocalDb = async (req, res, next) => {
   try {
+    console.log("heroku path ", `${__dirname} <and> /localDb/LocalDb.json`);
+
     if (process.env.passCode !== req.body.passCode) throw 400;
 
     let fetchedLocalDb,
