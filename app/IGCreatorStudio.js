@@ -29,8 +29,8 @@ let page,
                 "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
             })
             : await puppeteer.launch({
-              args: ["--no-sandbox", "--disable-setuid-sandbox"],
-              headless: true,
+           //   args: ["--no-sandbox", "--disable-setuid-sandbox"],
+              headless: false,
               executablePath:"/usr/bin/google-chrome"
             })
         page = await browser.newPage();
