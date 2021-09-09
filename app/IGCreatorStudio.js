@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer-core");
+const puppeteer = require("puppeteer");
 const Helpers = require("../helpers/Helpers");
 
 let page,
@@ -31,7 +31,7 @@ let page,
             : await puppeteer.launch({
            //   args: ["--no-sandbox", "--disable-setuid-sandbox"],
               headless: true,
-              executablePath:"/usr/bin/google-chrome"
+           //   executablePath:"/usr/bin/google-chrome"
             })
         page = await browser.newPage();
         
