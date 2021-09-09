@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core");
 const Helpers = require("../helpers/Helpers");
 
 let page,
@@ -21,17 +21,20 @@ let page,
         username = process.env.IG_USERNAME;
         password = process.env.IG_PASSWORD;
         console.log("Running Puppeteer..");
-        const browser = process.env.ON_HEROKU
-          ? await puppeteer.launch({
-              args: ["--no-sandbox", "--disable-setuid-sandbox"],
-              headless: true,
-            })
-          : await puppeteer.launch({
+
+        const browser = process.platform==="win32"
+          ?  await puppeteer.launch({
               headless: false,
               executablePath:
                 "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            });
+            })
+            : await puppeteer.launch({
+              args: ["--no-sandbox", "--disable-setuid-sandbox"],
+              headless: true,
+              executablePath:"/usr/bin/google-chrome"
+            })
         page = await browser.newPage();
+        
         await page.goto(`https://business.facebook.com/creatorstudio/home 
       `);
 
@@ -124,6 +127,8 @@ let page,
           page,
           `/html/body/div[4]/div/div/div/div[3]/div[2]/button`
         );
+        await page.waitForTimeout(5000);
+        await browser.close();
       } catch (e) {
         console.log("Error occured at CreatorStudio", e);
       }

@@ -5,19 +5,37 @@ let config = require("../../config/Config");
 let subredditArray = config.Subreddits,
   fetchedLocalDb,
   findAndPostToIG = {},
-  localDbPath = process.env.ON_HEROKU
-    ? `${__dirname.replace(`/app/findAndPostToIG`, ``)}/localDb/LocalDb.json`
-    : `${__dirname.replace(`app\\findAndPostToIG`, ``)}\\localDb\\LocalDb.json`;
+  localDbPath =  process.platform==="win32"
+    ?`${__dirname.replace(`app\\findAndPostToIG`, ``)}\\localDb\\LocalDb.json`
+    :`${__dirname.replace(`/app/findAndPostToIG`, ``)}/localDb/LocalDb.json`
+
 
 findAndPostToIG.makePost = async (req, res, next) => {
   try {
-    if (process.env.passCode !== req.body.passCode) throw 400;
+    if (process.env.passCode !== req.body.passCode) throw 400; 
 
-    makePost();
+    let EligiblePost, accessToken;
 
+    accessToken = await Reddit.GenerateAccessToken();
+    if (accessToken.error) throw accessToken;
+  
+    EligiblePost = await Reddit.fetchPostFromSubReddit(
+      accessToken.accessToken,
+      subredditArray
+    );
+  
+    if (EligiblePost.error && EligiblePost.message)
+      if (EligiblePost.error === `No suitable posts found`)
+        throw EligiblePost.error;
+      else throw `Unexpected error EligiblePost: ${EligiblePost}`;
+  
+    console.log("Got processed EligiblePost", EligiblePost);
+  
     if (process.env.NODE_ENV === "PRODUCTION")
-      return res.status(200).send("IG Post procedure initiated...");
-    else return res.status(200).send("Please view console for debugging.");
+      await CreatorStudio.RunScript(EligiblePost);
+      else return res.status(200).send("Please view console for debugging.");
+
+  
   } catch (e) {
     if (e === 400)
       return res.status(400).send({
@@ -31,28 +49,6 @@ findAndPostToIG.makePost = async (req, res, next) => {
   }
 };
 
-async function makePost() {
-  let EligiblePost, accessToken;
-
-  accessToken = await Reddit.GenerateAccessToken();
-  if (accessToken.error) throw accessToken;
-
-  EligiblePost = await Reddit.fetchPostFromSubReddit(
-    accessToken.accessToken,
-    subredditArray
-  );
-
-  if (EligiblePost.error && EligiblePost.message)
-    if (EligiblePost.error === `No suitable posts found`)
-      throw EligiblePost.error;
-    else throw `Unexpected error EligiblePost: ${EligiblePost}`;
-
-  console.log("Got processed EligiblePost", EligiblePost);
-
-  if (process.env.NODE_ENV === "PRODUCTION")
-    await CreatorStudio.RunScript(EligiblePost);
-  else console.log("Debug end.");
-}
 
 findAndPostToIG.viewDb = async (req, res, next) => {
   try {

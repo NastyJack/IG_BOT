@@ -5,7 +5,9 @@ const FFMPEG = require("../helpers/FFMPEG");
 let Reddit = {},
   dateObj = new Date(),
   today = dateObj.getDate(),
-  localDbPath = `${__dirname.replace(`/app`, ``)}/localDb/LocalDb.json`;
+  localDbPath = process.platform==="win32"
+  ?`${__dirname.replace(`app`, ``)}\\localDb\\LocalDb.json`
+  :`${__dirname.replace(`/app`, ``)}/localDb/LocalDb.json`
 
 Reddit.GenerateAccessToken = async function () {
   try {
