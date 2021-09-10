@@ -31,7 +31,15 @@ let page,
               })
             : await puppeteer.launch({
                 // args: ["--single-process", "--no-zygote", "--no-sandbox"],
-                headless: false,
+                args: [
+                  "--no-sandbox",
+                  "--disable-setuid-sandbox",
+                  "--disable-dev-shm-usage",
+                  "--disable-extensions-except=" +
+                    "this.extensionPathBuildPath",
+                  "--load-extension=" + "this.extensionPathBuildPath",
+                ],
+                headless: true,
                 executablePath: "/usr/bin/google-chrome",
               });
 
@@ -60,7 +68,8 @@ let page,
           page,
           `/html/body/div/div[1]/div[2]/div/div[2]/div/div/div/div[2]/div/div/span/div/div`
         );
-
+        currentUrl = await popup.evaluate(() => location.href);
+        console.log("currentUrl =", currentUrl);
         newPagePromise = new Promise((x) =>
           browser.once("targetcreated", (target) => x(target.page()))
         );
