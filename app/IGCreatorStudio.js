@@ -68,7 +68,7 @@ let page,
           page,
           `/html/body/div/div[1]/div[2]/div/div[2]/div/div/div/div[2]/div/div/span/div/div`
         );
-        currentUrl = await popup.evaluate(() => location.href);
+        currentUrl = await page.evaluate(() => location.href);
         console.log("currentUrl =", currentUrl);
         newPagePromise = new Promise((x) =>
           browser.once("targetcreated", (target) => x(target.page()))
