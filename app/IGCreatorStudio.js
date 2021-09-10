@@ -68,12 +68,14 @@ let page,
           page,
           `/html/body/div/div[1]/div[2]/div/div[2]/div/div/div/div[2]/div/div/span/div/div`
         );
-        currentUrl = await page.evaluate(() => location.href);
-        console.log("currentUrl =", currentUrl);
+
         newPagePromise = new Promise((x) =>
           browser.once("targetcreated", (target) => x(target.page()))
         );
         popup = await newPagePromise;
+        currentUrl = await popup.evaluate(() => location.href);
+        console.log("currentUrl =", currentUrl);
+
         await popup.waitForSelector('input[name="username"]');
         usernameInput = await popup.$('input[name="username"]');
         passwordInput = await popup.$('input[name="password"]');
