@@ -25,16 +25,25 @@ let page,
         const browser =
           process.platform === "win32"
             ? await puppeteer.launch({
-                headless: false,
+                headless: true,
                 executablePath:
                   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
               })
             : await puppeteer.launch({
-                args: ["--single-process", "--no-zygote", "--no-sandbox"],
-                headless: true,
-                //   executablePath:"/usr/bin/google-chrome"
+                // args: ["--single-process", "--no-zygote", "--no-sandbox"],
+                headless: false,
+                executablePath: "/usr/bin/google-chrome",
               });
+
         page = await browser.newPage();
+
+        await page.setExtraHTTPHeaders({
+          "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
+        });
+
+        await page.setUserAgent(
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
+        );
 
         await page.setViewport({
           width: 1280,

@@ -19,19 +19,24 @@ findAndPostToIG.makePost = async (req, res, next) => {
 
     let EligiblePost, accessToken;
 
-    accessToken = await Reddit.GenerateAccessToken();
-    if (accessToken.error) throw accessToken;
+    // accessToken = await Reddit.GenerateAccessToken();
+    // if (accessToken.error) throw accessToken;
 
-    EligiblePost = await Reddit.fetchPostFromSubReddit(
-      accessToken.accessToken,
-      subredditArray
-    );
+    // EligiblePost = await Reddit.fetchPostFromSubReddit(
+    //   accessToken.accessToken,
+    //   subredditArray
+    // );
 
-    if (accessToken.error) throw accessToken;
-    if (EligiblePost.error && EligiblePost.message)
-      if (EligiblePost.error === `No suitable posts found`)
-        throw EligiblePost.error;
-      else throw `Unexpected error EligiblePost: ${EligiblePost}`;
+    // if (accessToken.error) throw accessToken;
+    // if (EligiblePost.error && EligiblePost.message)
+    //   if (EligiblePost.error === `No suitable posts found`)
+    //     throw EligiblePost.error;
+    //   else throw `Unexpected error EligiblePost: ${EligiblePost}`;
+
+    EligiblePost = {
+      title: "If You're bad, I'm Your Dad",
+      file: "https://v.redd.it/11uvdd85xgm71/DASH_480.mp4",
+    };
 
     console.log("Got processed EligiblePost", EligiblePost);
 
