@@ -26,14 +26,12 @@ findAndPostToIG.makePost = async (req, res, next) => {
       accessToken.accessToken,
       subredditArray
     );
-    // await CreatorStudio.RunScript(EligiblePost);
 
-    // accessToken = await Reddit.GenerateAccessToken();
-    // if (accessToken.error) throw accessToken;
-    // if (EligiblePost.error && EligiblePost.message)
-    //   if (EligiblePost.error === `No suitable posts found`)
-    //     throw EligiblePost.error;
-    //   else throw `Unexpected error EligiblePost: ${EligiblePost}`;
+    if (accessToken.error) throw accessToken;
+    if (EligiblePost.error && EligiblePost.message)
+      if (EligiblePost.error === `No suitable posts found`)
+        throw EligiblePost.error;
+      else throw `Unexpected error EligiblePost: ${EligiblePost}`;
 
     console.log("Got processed EligiblePost", EligiblePost);
 

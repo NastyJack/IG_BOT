@@ -11,22 +11,19 @@ const fs = require("fs");
 
 const proc = new ffmpeg(["-preset ultrafast -threads 0"]);
 const { default: axios } = require("axios");
-const OutputVideoPath = `${__dirname.replace(
-  `\\helpers`,
-  ``
-)}\\localDb\\RedditMedia.mp4`;
-const OutputGIFPath = `${__dirname.replace(
-  `\\helpers`,
-  ``
-)}\\localDb\\RedditGIF.gif`;
-
+const OutputVideoPath =
+  process.platform === "win32"
+    ? `${__dirname.replace(`\\helpers`, ``)}\\localDb\\RedditMedia.mp4`
+    : `${__dirname.replace(`/helpers`, ``)}/localDb/RedditMedia.mp4`;
+const OutputGIFPath =
+  process.platform === "win32"
+    ? `${__dirname.replace(`\\helpers`, ``)}\\localDb\\RedditGIF.gif`
+    : `${__dirname.replace(`/helpers`, ``)}/localDb/RedditGIF.gif`;
 ffmpeg.setFfmpegPath(ffmpegPath);
 let FFMPEG = {};
 
 FFMPEG.combineAudioVideo = async function (url) {
   try {
-    // R14 out of memory issue.
-    // url = "https://v.redd.it/o6i2kwb0eol71/DASH_720.mp4";
     let fetchedAudio;
     console.log(`URL > ${url}`);
     console.log("Downloading Video, Please Wait ...");
