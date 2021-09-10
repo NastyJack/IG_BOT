@@ -22,26 +22,27 @@ let page,
         password = process.env.IG_PASSWORD;
         console.log("Running Puppeteer..");
 
-        const browser = process.platform==="win32"
-          ?  await puppeteer.launch({
-              headless: false,
-              executablePath:
-                "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            })
+        const browser =
+          process.platform === "win32"
+            ? await puppeteer.launch({
+                headless: false,
+                executablePath:
+                  "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+              })
             : await puppeteer.launch({
-              args: ['--single-process', '--no-zygote', '--no-sandbox'],
-              headless: true,
-           //   executablePath:"/usr/bin/google-chrome"
-            })
+                args: ["--single-process", "--no-zygote", "--no-sandbox"],
+                headless: true,
+                //   executablePath:"/usr/bin/google-chrome"
+              });
         page = await browser.newPage();
-        
-        await page.goto(`https://business.facebook.com/creatorstudio/home 
-      `);
 
         await page.setViewport({
           width: 1280,
           height: 720,
         });
+
+        await page.goto(`https://business.facebook.com/creatorstudio/home`);
+
         await Helpers.ClickButton(
           page,
           `/html/body/div/div[1]/div[1]/div/div[1]/div[2]`
@@ -129,6 +130,7 @@ let page,
         );
         await page.waitForTimeout(5000);
         await browser.close();
+        return;
       } catch (e) {
         console.log("Error occured at CreatorStudio", e);
       }

@@ -5,9 +5,10 @@ const FFMPEG = require("../helpers/FFMPEG");
 let Reddit = {},
   dateObj = new Date(),
   today = dateObj.getDate(),
-  localDbPath = process.platform==="win32"
-  ?`${__dirname.replace(`app`, ``)}\\localDb\\LocalDb.json`
-  :`${__dirname.replace(`/app`, ``)}/localDb/LocalDb.json`
+  localDbPath =
+    process.platform === "win32"
+      ? `${__dirname.replace(`app`, ``)}\\localDb\\LocalDb.json`
+      : `${__dirname.replace(`/app`, ``)}/localDb/LocalDb.json`;
 
 Reddit.GenerateAccessToken = async function () {
   try {
@@ -68,6 +69,7 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
         Authorization: `Bearer ${accessToken}`,
       },
     };
+
     subredditArray = shuffleSubredditArray(subredditArray);
     //Fetch already posted data from LocalDb
     fetchedLocalDb = JSON.parse(fs.readFileSync(localDbPath, "utf8"));
@@ -81,7 +83,8 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
         skip = false;
         continue;
       }
-      if (redditPosts.status !== 200) throw redditPosts.data || redditPosts;
+      if (redditPosts && redditPosts.status !== 200)
+        throw redditPosts.data || redditPosts;
 
       redditPosts = redditPosts.data.data.children;
       for (let post of redditPosts) {
@@ -176,7 +179,7 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
       }),
       "utf8"
     );
-
+    fetchedLocalDb = null;
     return eligiblePost;
   } catch (e) {
     console.log("Error occured at fetchpostFromSubreddit", e);
