@@ -212,7 +212,7 @@ let page,
           page,
           `/html/body/div[5]/div/div/div/div[3]/div[2]/button`
         );
-        await popup.screenshot({
+        await page.screenshot({
           path: "Login 5.png",
         });
         await page.waitForTimeout(5000);
