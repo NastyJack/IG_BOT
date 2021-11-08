@@ -1,7 +1,7 @@
-const puppeteer = require("puppeteer-extra");
+const puppeteer = require("puppeteer");
 const Helpers = require("../helpers/Helpers");
-const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-puppeteer.use(StealthPlugin());
+//const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+//puppeteer.use(StealthPlugin());
 
 let page,
   popup,

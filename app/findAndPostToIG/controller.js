@@ -36,7 +36,7 @@ findAndPostToIG.makePost = async (req, res, next) => {
     console.log("Got processed EligiblePost", EligiblePost);
 
     if (process.env.NODE_ENV === "PRODUCTION") {
-      //  await CreatorStudio.RunScript(EligiblePost);
+      await CreatorStudio.RunScript(EligiblePost);
       res.status(200).send("Post is ready to be fetched!");
     } else return res.status(200).send("Please view console for debugging.");
   } catch (e) {
