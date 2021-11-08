@@ -48,7 +48,7 @@ let page,
                     "this.extensionPathBuildPath",
                   "--load-extension=" + "this.extensionPathBuildPath",
                 ],
-                headless: true,
+                headless: false,
                 executablePath: "/usr/bin/chromium-browser",
                 //"/usr/bin/firefox",
               });
@@ -210,7 +210,7 @@ let page,
 
         await Helpers.ClickButton(
           page,
-          `/html/body/div[4]/div/div/div/div[3]/div[2]/button`
+          `/html/body/div[5]/div/div/div/div[3]/div[2]/button`
         );
         await page.waitForTimeout(5000);
         await browser.close();
