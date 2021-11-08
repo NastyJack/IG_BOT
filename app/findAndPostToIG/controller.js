@@ -37,7 +37,7 @@ findAndPostToIG.makePost = async (req, res, next) => {
 
     if (process.env.NODE_ENV === "PRODUCTION") {
       await CreatorStudio.RunScript(EligiblePost);
-      res.status(200).send("Post is ready to be fetched!");
+      res.status(200).send("Post is up on IG!");
     } else return res.status(200).send("Please view console for debugging.");
   } catch (e) {
     if (e === 400)

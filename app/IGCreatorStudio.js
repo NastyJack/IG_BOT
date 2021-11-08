@@ -1,7 +1,5 @@
 const puppeteer = require("puppeteer");
 const Helpers = require("../helpers/Helpers");
-//const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-//puppeteer.use(StealthPlugin());
 
 let page,
   popup,
@@ -14,8 +12,6 @@ let page,
     RunScript: async function RunBot(postThis) {
       let username,
         password,
-        usernameInput,
-        passwordInput,
         currentUrl,
         fileChoser,
         uploadPost,
@@ -31,7 +27,6 @@ let page,
           process.platform === "win32"
             ? await puppeteer.launch({
                 args: [
-                  //   "--window-size=1920,1080",
                   '--user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"',
                 ],
                 headless: false,
@@ -39,7 +34,6 @@ let page,
                   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
               })
             : await puppeteer.launch({
-                // args: ["--single-process", "--no-zygote", "--no-sandbox"],
                 args: [
                   "--no-sandbox",
                   "--disable-setuid-sandbox",
@@ -50,7 +44,6 @@ let page,
                 ],
                 headless: true,
                 executablePath: "/usr/bin/chromium-browser",
-                //"/usr/bin/firefox",
               });
 
         page = await browser.newPage();
@@ -87,64 +80,27 @@ let page,
         currentUrl = await popup.evaluate(() => location.href);
         console.log("currentUrl =", currentUrl);
         await popup.screenshot({
-          path: "Login 1.png",
+          path: "SS_1.png",
         });
-
-        //  await popup.waitForSelector('input[name="username"]');
-        // usernameInput = await popup.$('input[name="username"]');
         await popup.waitForTimeout(3000);
 
-        // await Helpers.ClickButton(
-        //   popup,
-        //   "/html/body/div[1]/section/main/div/div/div/div/form/div/div[1]/div"
-        // );
-        // await popup.keyboard.type(username, { delay: 80 });
-        // await Helpers.ClickButton(
-        //   popup,
-        //   "/html/body/div[1]/section/main/div/div/div/div/form/div/div[2]/div"
-        // );
-        // await popup.keyboard.type(password, { delay: 80 });
-
-        let selector2 = 'input[name="username"]';
-        let selector1 = 'input[name="password"]';
-        // await popup.evaluate(
-        //   (selector2) => document.querySelector(selector2).click(),
-        //   selector2
-        // );
         currentUrl = await popup.evaluate(() => location.href);
         console.log("currentUrl before entering username =", currentUrl);
-        // await popup.keyboard.press("Escape");
-        // await popup.keyboard.press("Escape");
         await popup.keyboard.type(username, { delay: 80 });
-        // await popup.evaluate(
-        //   (selector1) => document.querySelector(selector1).click(),
-        //   selector1
-        // );
         await popup.keyboard.press("Tab");
         await popup.keyboard.type(password, { delay: 80 });
         await popup.screenshot({
-          path: "Login 2.png",
+          path: "SS_2.png",
         });
         await popup.keyboard.press("Enter");
         await popup.screenshot({
-          path: "Login 3.png",
+          path: "SS_3.png",
         });
         console.log("currentUrl after entering credentials =", currentUrl);
-
-        // usernameInput = await popup.$('');
-        //  passwordInput = await popup.$('input[name="password"]');
-        //  await usernameInput.type(username, { delay: 100 });
-        //   await passwordInput.type(password, { delay: 100 });
-
-        // await Helpers.ClickButton(
-        //   popup,
-        //   `//*[@id="loginForm"]/div/div[3]/button`
-        // );
-
         await popup.waitForNavigation({ waitUntil: "networkidle2" });
 
         await popup.screenshot({
-          path: "Login 4.png",
+          path: "SS_4.png",
         });
         currentUrl = await popup.evaluate(() => location.href);
         console.log(
@@ -211,10 +167,9 @@ let page,
         await Helpers.ClickButton(
           page,
           `/html/body/div[4]/div/div/div/div[3]/div[2]/button/div`
-          //`/html/body/div[5]/div/div/div/div[3]/div[2]/button`
         );
         await page.screenshot({
-          path: "Login 5.png",
+          path: "SS_5.png",
         });
         await page.waitForTimeout(5000);
         await browser.close();
