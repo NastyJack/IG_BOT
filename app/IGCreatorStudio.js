@@ -33,7 +33,8 @@ let page,
                 ],
                 headless: false,
                 executablePath:
-                  "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+                  //  "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+                  "/usr/bin/firefox /usr/lib/firefox /etc/firefox /usr/share/man/man1/firefox.1.gz",
               })
             : await puppeteer.launch({
                 // args: ["--single-process", "--no-zygote", "--no-sandbox"],
