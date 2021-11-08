@@ -31,7 +31,7 @@ let page,
                   //   "--window-size=1920,1080",
                   '--user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"',
                 ],
-                headless: false,
+                headless: true,
                 executablePath:
                   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
               })
@@ -46,7 +46,7 @@ let page,
                   "--load-extension=" + "this.extensionPathBuildPath",
                 ],
                 headless: true,
-                executablePath: "/usr/bin/google-chrome",
+                executablePath: "/usr/bin/chromium-browser",
                 //"/usr/bin/firefox",
               });
 
