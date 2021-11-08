@@ -6,7 +6,10 @@ const Helpers = require("../helpers/Helpers");
 let page,
   popup,
   newPagePromise,
-  redditMediaPath = `${__dirname.replace(`app`, ``)}\\localDb\\RedditMedia.mp4`,
+  redditMediaPath =
+    process.platform === "win32"
+      ? `${__dirname.replace(`app`, ``)}\\localDb\\RedditMedia.mp4`
+      : `${__dirname.replace(`app`, ``)}localDb/RedditMedia.mp4`,
   CreatorStudio = {
     RunScript: async function RunBot(postThis) {
       let username,
@@ -122,6 +125,8 @@ let page,
         await popup.screenshot({
           path: "Login 2.png",
         });
+        console.log("RedditMediaPath", redditMediaPath);
+        process.exit(0);
         await popup.keyboard.press("Enter");
         await popup.screenshot({
           path: "Login 3.png",
