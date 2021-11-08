@@ -46,9 +46,8 @@ let page,
                   "--load-extension=" + "this.extensionPathBuildPath",
                 ],
                 headless: true,
-                executablePath:
-                  //"/usr/bin/google-chrome",
-                  "/usr/bin/firefox",
+                executablePath: "/usr/bin/google-chrome",
+                //"/usr/bin/firefox",
               });
 
         page = await browser.newPage();
