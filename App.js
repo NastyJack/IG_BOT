@@ -33,6 +33,10 @@ app.get("/api/RedditMediaTitle", function (req, res) {
   );
 });
 
+app.get("/", function (req, res) {
+  res.send("Hi there!");
+});
+
 app.listen(process.env.PORT, () => {
   console.log(
     `\n\n IG_BOT is listening at port ${process.env.PORT} @ ${process.env.NODE_ENV}`
