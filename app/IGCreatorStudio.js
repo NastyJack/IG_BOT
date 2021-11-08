@@ -48,7 +48,7 @@ let page,
                     "this.extensionPathBuildPath",
                   "--load-extension=" + "this.extensionPathBuildPath",
                 ],
-                headless: false,
+                headless: true,
                 executablePath: "/usr/bin/chromium-browser",
                 //"/usr/bin/firefox",
               });
@@ -212,6 +212,9 @@ let page,
           page,
           `/html/body/div[5]/div/div/div/div[3]/div[2]/button`
         );
+        await popup.screenshot({
+          path: "Login 5.png",
+        });
         await page.waitForTimeout(5000);
         await browser.close();
         return;
