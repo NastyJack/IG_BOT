@@ -125,8 +125,6 @@ let page,
         await popup.screenshot({
           path: "Login 2.png",
         });
-        console.log("RedditMediaPath", redditMediaPath);
-        process.exit(0);
         await popup.keyboard.press("Enter");
         await popup.screenshot({
           path: "Login 3.png",
