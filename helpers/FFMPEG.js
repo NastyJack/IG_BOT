@@ -25,7 +25,6 @@ FFMPEG.combineAudioVideo = async function (url) {
     console.log(`\n\n URL > ${url}`);
     console.log("Downloading Video, Please Wait ...");
     url = url.replace("DASH_1080", "DASH_720");
-    url = "https://v.redd.it/3qanvl7vpmy71/DASH_720.mp4";
 
     return await scrape(url);
 
