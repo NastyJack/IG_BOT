@@ -50,7 +50,7 @@ FFMPEG.combineAudioVideo = async function (url) {
               ">>",
               `${config.base_url}/RedditMedia`
             );
-            return resolve(`${config.base_url}/RedditMedia`);
+            return resolve();
           });
 
         mediaId = url.replace(`https://v.redd.it/`, "");
