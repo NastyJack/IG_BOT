@@ -15,17 +15,17 @@ const OutputVideoPath =
   process.platform === "win32"
     ? `${__dirname.replace(`\\helpers`, ``)}\\localDb\\RedditMedia.mp4`
     : `${__dirname.replace(`/helpers`, ``)}/localDb/RedditMedia.mp4`;
-const OutputGIFPath =
-  process.platform === "win32"
-    ? `${__dirname.replace(`\\helpers`, ``)}\\localDb\\RedditGIF.gif`
-    : `${__dirname.replace(`/helpers`, ``)}/localDb/RedditGIF.gif`;
+const OutputGIFPath = OutputVideoPath.replace(".mp4", ".gif");
+// process.platform === "win32"
+//   ? `${__dirname.replace(`\\helpers`, ``)}\\localDb\\RedditGIF.gif`
+//   : `${__dirname.replace(`/helpers`, ``)}/localDb/RedditGIF.gif`;
 ffmpeg.setFfmpegPath(ffmpegPath);
 let FFMPEG = {};
 
 FFMPEG.combineAudioVideo = async function (url) {
   try {
     let fetchedAudio;
-    console.log(`URL > ${url}`);
+    console.log(`\n\n URL > ${url}`);
     console.log("Downloading Video, Please Wait ...");
     url = url.replace("DASH_1080", "DASH_720");
     return await scrape(url);
@@ -44,7 +44,12 @@ FFMPEG.combineAudioVideo = async function (url) {
             return reject(new Error(err));
           })
           .on("end", () => {
-            console.log("Done", `${config.base_url}/RedditMedia`);
+            console.log(
+              "Done, url",
+              url,
+              ">>",
+              `${config.base_url}/RedditMedia`
+            );
             return resolve(`${config.base_url}/RedditMedia`);
           });
 
