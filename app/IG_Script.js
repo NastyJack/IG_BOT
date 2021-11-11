@@ -53,11 +53,10 @@ let browser,
         });
 
         await page.goto(`https://www.instagram.com/`);
+        await page.waitForTimeout(3000);
         await page.screenshot({
           path: screenshotPath,
         });
-
-        await page.waitForTimeout(3000);
       } catch (e) {
         await page.screenshot({
           path: screenshotPath,

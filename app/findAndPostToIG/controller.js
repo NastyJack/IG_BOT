@@ -1,6 +1,7 @@
 const fs = require("fs");
 let { IG_Script } = require("../../app/IG_Script");
 let Reddit = require("../../app/Reddit");
+let Email = require("../../helpers/Email");
 let config = require("../../config/Config");
 let subredditArray = config.Subreddits,
   isLoggedIn = false,
@@ -53,6 +54,7 @@ findAndPostToIG.makePost = async (req, res, next) => {
         message: "Bad Request at findAndPostToIG",
       });
     else {
+      Email.Mail(e);
       console.log("Error at making IG post ", e);
       return res.status(500).send({ error: "Internal error", message: e });
     }
@@ -134,7 +136,28 @@ findAndPostToIG.isPosted = async (req, res, next) => {
         message: "Bad Request at isPosted",
       });
     else {
+      Email.Mail(e);
       console.log("Error at isPosted ", e);
+      return res.status(500).send({ error: "Internal error", message: e });
+    }
+  }
+};
+
+findAndPostToIG.sendMail = async (req, res, next) => {
+  try {
+    if (process.env.passCode !== req.body.passCode) throw 400;
+    console.log("Sending Mail");
+    Email.Mail(null);
+
+    return res.status(200).send("Post is up and ready!");
+  } catch (e) {
+    if (e === 400)
+      return res.status(400).send({
+        error: "Bad Request",
+        message: "Bad Request at isPosted",
+      });
+    else {
+      console.log("Error at sendDebugMail", e);
       return res.status(500).send({ error: "Internal error", message: e });
     }
   }
