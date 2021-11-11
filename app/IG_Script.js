@@ -74,10 +74,10 @@ let browser,
         console.log("\n\n Logging In...");
 
         //click input to start typing
-        // await Helpers.ClickButton(
-        //   page,
-        //   `/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div/div[1]/div`
-        // );
+        await Helpers.ClickButton(
+          page,
+          `/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div/div[1]/div`
+        );
         await page.type("input[name=username]", username, { delay: 80 });
         await page.type("input[name=password]", password, { delay: 80 });
         await page.keyboard.press("Enter");

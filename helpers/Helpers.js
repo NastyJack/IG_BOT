@@ -7,7 +7,7 @@ Helpers.ClickButton = async function (page, xPath) {
     console.log(
       "Failed to click button @",
       xPath,
-      xpath === `/html/body/div[5]/div/div/div/div[3]/button[2]`
+      xPath === `/html/body/div[5]/div/div/div/div[3]/button[2]`
         ? "Notification Prompt"
         : ""
     );
