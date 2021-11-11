@@ -1,8 +1,9 @@
 const fs = require("fs");
-let { CreatorStudio } = require("../../app/IGCreatorStudio");
+let { IG_Script } = require("../../app/IG_Script");
 let Reddit = require("../../app/Reddit");
 let config = require("../../config/Config");
 let subredditArray = config.Subreddits,
+  isLoggedIn = false,
   fetchedLocalDb,
   findAndPostToIG = {},
   localDbPath =
@@ -16,6 +17,11 @@ let subredditArray = config.Subreddits,
 findAndPostToIG.makePost = async (req, res, next) => {
   try {
     if (process.env.passCode !== req.body.passCode) throw 400;
+
+    if (!isLoggedIn && process.env.NODE_ENV.trim() === "PRODUCTION") {
+      await IG_Script.performLogin();
+      isLoggedIn = true;
+    }
 
     let EligiblePost, accessToken;
 
@@ -35,8 +41,9 @@ findAndPostToIG.makePost = async (req, res, next) => {
 
     console.log("Got processed EligiblePost", EligiblePost);
 
-    if (process.env.NODE_ENV === "PRODUCTION") {
-      await CreatorStudio.RunScript(EligiblePost);
+    if (process.env.NODE_ENV.trim() === "PRODUCTION") {
+      await IG_Script.performUpload(EligiblePost);
+
       res.status(200).send("Post is up on IG!");
     } else return res.status(200).send("Please view console for debugging.");
   } catch (e) {
@@ -132,4 +139,9 @@ findAndPostToIG.isPosted = async (req, res, next) => {
     }
   }
 };
+
+findAndPostToIG.setPuppeteerContext = async () => {
+  await IG_Script.performSetup();
+};
+
 module.exports = findAndPostToIG;
