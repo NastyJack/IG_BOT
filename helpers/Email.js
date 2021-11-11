@@ -3,7 +3,7 @@ const fs = require("fs");
 let screenshotPath =
     process.platform === "win32"
       ? `${__dirname.replace(`\\helpers`, ``)}\\screenshots\\Error.png`
-      : `${__dirname.replace(`/helpers`, ``)}screenshots/Error.png`,
+      : `${__dirname.replace(`/helpers`, ``)}/screenshots/Error.png`,
   transport = nodemailer.createTransport({
     host: "smtp.mailgun.org",
     port: 587,
