@@ -93,11 +93,12 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
           post.crosspost_parent_list &&
           post.crosspost_parent_list.length > 0
         ) {
-          newTitle = post.title;
-          newScore = post.score;
-          post = post.crosspost_parent_list[0];
-          post.title = newTitle;
-          post.score = newScore;
+          skip = true;
+          // newTitle = post.title;
+          // newScore = post.score;
+          // post = post.crosspost_parent_list[0];
+          // post.title = newTitle;
+          // post.score = newScore;
         }
 
         switch (subreddit) {
