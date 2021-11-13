@@ -5,8 +5,11 @@ Helpers.ClickButton = async function (page, xPath) {
     let [button] = await page.$x(xPath);
     if (button) await button.click();
   } catch (e) {
-    if (xPath === `/html/body/div[5]/div/div/div/div[3]/button[2]`)
-      console.log("Notification prompt did not appear. Resuming...");
+    if (
+      xPath === `/html/body/div[5]/div/div/div/div[3]/button[2]` ||
+      xPath === `/html/body/div[1]/section/main/div/div/div/div`
+    )
+      console.log("Save settings prompt did not appear. Resuming...");
     else console.log("Failed to click button @", xPath);
   }
 };

@@ -55,8 +55,7 @@ Reddit.GenerateAccessToken = async function () {
 Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
   let url,
     fetchedLocalDb,
-    newTitle,
-    newScore,
+    caughtErrors,
     skip,
     fileExtension,
     redditPosts,
@@ -131,12 +130,18 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
         ) {
           if (fileExtension === `gifv`) {
             post.url = post.url.replace(".gifv", ".mp4");
-            await FFMPEG.combineAudioVideo(post.url);
+            caughtErrors = await FFMPEG.combineAudioVideo(post.url);
+            if (caughtErrors && caughtErrors.error) {
+              continue;
+            }
           }
 
           if (post.is_video) {
             post.url = post.media.reddit_video.fallback_url.split("?")[0];
-            await FFMPEG.combineAudioVideo(post.url);
+            caughtErrors = await FFMPEG.combineAudioVideo(post.url);
+            if (caughtErrors && caughtErrors.error) {
+              continue;
+            }
           } else if (fileExtension === `.gif`) {
             await FFMPEG.GIFtoVideo(post.url);
           }

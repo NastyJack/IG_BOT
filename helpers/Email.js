@@ -14,13 +14,18 @@ let screenshotPath =
     },
   });
 
-function setEmailPayload(error) {
+function setEmailPayload(error, sub) {
   return (mailOptions = {
     from: process.env.EMAIL_SENDER,
     to: process.env.EMAIL_RECIPIENT,
     subject: "IG_BOT Screenshot",
     text: "",
-    html: "<span> " + (error ? error : "No Errors") + "</span>",
+    html:
+      "<span> " +
+      (error ? error : "No Errors") +
+      " - " +
+      (sub ? sub : "") +
+      "</span>",
     attachments: [
       {
         // stream as an attachment
@@ -31,8 +36,8 @@ function setEmailPayload(error) {
   });
 }
 module.exports = {
-  Mail: function (error) {
-    let mailOptions = setEmailPayload(error);
+  Mail: function (error, sub = null) {
+    let mailOptions = setEmailPayload(error, sub);
     transport.sendMail(mailOptions, (error, info) => {
       if (error) {
         return console.log(error);

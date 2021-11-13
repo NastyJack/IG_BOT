@@ -2,7 +2,8 @@ const puppeteer = require("puppeteer");
 const Helpers = require("../helpers/Helpers");
 const Email = require("../helpers/Email");
 
-let browser,
+let isNewUpload = false,
+  browser,
   page,
   redditMediaPath =
     process.platform === "win32"
@@ -55,14 +56,11 @@ let browser,
 
         await page.goto(`https://www.instagram.com/`);
         await page.waitForTimeout(3000);
-        await page.screenshot({
-          path: screenshotPath,
-        });
       } catch (e) {
         await page.screenshot({
           path: screenshotPath,
         });
-        Email.Mail(e);
+        Email.Mail(e, "performSetup");
         console.log("Error occured at performSetup", e);
         browser.close();
         return null;
@@ -73,6 +71,7 @@ let browser,
       let username = process.env.IG_USERNAME,
         password = process.env.IG_PASSWORD;
       try {
+        isNewUpload = false;
         console.log("\n\n Logging In...");
 
         //click input to start typing
@@ -84,31 +83,32 @@ let browser,
         await page.type("input[name=password]", password, { delay: 80 });
         await page.keyboard.press("Enter");
         await page.waitForNavigation({ waitUntil: "networkidle2" });
-        await page.waitForNavigation({ waitUntil: "networkidle2" });
+        await page.waitForTimeout(1000);
 
-        let [notNowButton] = await page.$x("//button[contains(., 'Not Now')]");
-
-        if (notNowButton) {
-          await notNowButton.click();
-          console.log("Clicked not Now button");
-        }
         await Helpers.ClickButton(
           page,
-          `/html/body/div[5]/div/div/div/div[3]/button[2]`
+          `/html/body/div[1]/section/main/div/div/div/div`
         );
+        await page.waitForTimeout(5000);
+
+        let [notNow] = await page.$x("//button[contains(., 'Not Now')]");
+        if (notNow) notNow.click();
+
         console.log("Logged In, Ready to Go!");
+        isNewUpload = true;
         return page;
       } catch (e) {
         await page.screenshot({
           path: screenshotPath,
         });
-        Email.Mail(e);
+        Email.Mail(e, "performLogin");
         console.log("Error occured at performLogin", e);
         //   browser.close();
       }
     },
     performUpload: async function (postThis) {
       try {
+        if (!isNewUpload) throw "Not a fresh upload. Skipping upload.";
         console.log("Running upload script...");
 
         //Click + button.
@@ -199,7 +199,7 @@ let browser,
         await page.screenshot({
           path: screenshotPath,
         });
-        Email.Mail(e);
+        Email.Mail(e, "performUpload");
 
         console.log("Error occured at performUpload", e);
       }
