@@ -25,7 +25,6 @@ FFMPEG.combineAudioVideo = async function (url) {
     console.log(`\n\n URL > ${url}`);
     console.log("Downloading Video, Please Wait ...");
     url = url.replace("DASH_1080", "DASH_720");
-
     return await scrape(url);
 
     async function scrape(url) {
@@ -34,7 +33,7 @@ FFMPEG.combineAudioVideo = async function (url) {
       return new Promise(async (resolve, reject) => {
         let mediaId;
         proc
-          .addInput(url)
+          .addInput(String(url))
           .size("1200x?")
           .aspect("4:5")
           .autopad()

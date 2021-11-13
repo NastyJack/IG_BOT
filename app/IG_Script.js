@@ -167,7 +167,7 @@ let browser,
           `/html/body/div[6]/div[2]/div/div/div/div[1]/div/div/div[2]/div/button`
         );
 
-        await page.waitForTimeout(1200);
+        await page.waitForTimeout(600000);
 
         console.log("Waiting for post to be shared");
         await page.waitForXPath(
