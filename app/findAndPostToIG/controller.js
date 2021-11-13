@@ -149,7 +149,7 @@ findAndPostToIG.sendMail = async (req, res, next) => {
     console.log("Sending Mail");
     Email.Mail(null);
 
-    return res.status(200).send("Post is up and ready!");
+    return res.status(200).send("Email has been sent.");
   } catch (e) {
     if (e === 400)
       return res.status(400).send({

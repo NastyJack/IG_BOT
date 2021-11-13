@@ -1,5 +1,7 @@
 const puppeteer = require("puppeteer");
 const Helpers = require("../helpers/Helpers");
+const Email = require("../helpers/Email")
+
 
 let browser,
   page,
@@ -61,6 +63,7 @@ let browser,
         await page.screenshot({
           path: screenshotPath,
         });
+       Email.Mail(e)
         console.log("Error occured at performSetup", e);
         browser.close();
         return null;
@@ -94,6 +97,7 @@ let browser,
         await page.screenshot({
           path: screenshotPath,
         });
+       Email.Mail(e)
         console.log("Error occured at performLogin", e);
         //   browser.close();
       }
@@ -169,11 +173,19 @@ let browser,
 
         await page.waitForTimeout(600000);
 
+        //attempt to close login save prompt
+        await Helpers.ClickButton(
+          page,
+          `/html/body/div[5]/div/div/div/div[3]/button[2]`
+        ).catch(e=>{});
+
         console.log("Waiting for post to be shared");
         await page.waitForXPath(
           `/html/body/div[6]/div[2]/div/div/div/div[2]/div[1]/div/div/div/h2`,
           { timeout: 60000 }
         );
+
+
         console.log("Post has been shared!");
         console.log("Waiting for next request.");
 
@@ -184,6 +196,8 @@ let browser,
         await page.screenshot({
           path: screenshotPath,
         });
+       Email.Mail(e)
+
         console.log("Error occured at performUpload", e);
       }
     },
