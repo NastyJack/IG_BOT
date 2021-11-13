@@ -1,7 +1,6 @@
 const puppeteer = require("puppeteer");
 const Helpers = require("../helpers/Helpers");
-const Email = require("../helpers/Email")
-
+const Email = require("../helpers/Email");
 
 let browser,
   page,
@@ -63,7 +62,7 @@ let browser,
         await page.screenshot({
           path: screenshotPath,
         });
-       Email.Mail(e)
+        Email.Mail(e);
         console.log("Error occured at performSetup", e);
         browser.close();
         return null;
@@ -87,8 +86,16 @@ let browser,
         await page.waitForNavigation({ waitUntil: "networkidle2" });
         await page.waitForNavigation({ waitUntil: "networkidle2" });
 
+        let [notNowButton] = await page.$x("//button[contains(., 'Not Now')]");
+
+        if (notNowButton) {
+          await notNowButton.click();
+          console.log("Clicked not Now button");
+        }
+
         await Helpers.ClickButton(
           page,
+
           `/html/body/div[5]/div/div/div/div[3]/button[2]`
         );
         console.log("Logged In, Ready to Go!");
@@ -97,7 +104,7 @@ let browser,
         await page.screenshot({
           path: screenshotPath,
         });
-       Email.Mail(e)
+        Email.Mail(e);
         console.log("Error occured at performLogin", e);
         //   browser.close();
       }
@@ -182,8 +189,7 @@ let browser,
         await Helpers.ClickButton(
           page,
           `/html/body/div[5]/div/div/div/div[3]/button[2]`
-        ).catch(e=>{});
-
+        ).catch((e) => {});
 
         console.log("Post has been shared!");
         console.log("Waiting for next request.");
@@ -195,7 +201,7 @@ let browser,
         await page.screenshot({
           path: screenshotPath,
         });
-       Email.Mail(e)
+        Email.Mail(e);
 
         console.log("Error occured at performUpload", e);
       }
