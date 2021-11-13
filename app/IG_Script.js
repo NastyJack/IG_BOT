@@ -92,10 +92,8 @@ let browser,
           await notNowButton.click();
           console.log("Clicked not Now button");
         }
-
         await Helpers.ClickButton(
           page,
-
           `/html/body/div[5]/div/div/div/div[3]/button[2]`
         );
         console.log("Logged In, Ready to Go!");
