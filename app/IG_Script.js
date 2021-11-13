@@ -171,19 +171,18 @@ let browser,
           `/html/body/div[6]/div[2]/div/div/div/div[1]/div/div/div[2]/div/button`
         );
 
-        await page.waitForTimeout(600000);
+        console.log("Waiting for post to be shared");
+
+        await page.waitForXPath(
+          `/html/body/div[6]/div[2]/div/div/div/div[2]/div[1]/div/div/div/h2`,
+          { timeout: 600000 }
+        );
 
         //attempt to close login save prompt
         await Helpers.ClickButton(
           page,
           `/html/body/div[5]/div/div/div/div[3]/button[2]`
         ).catch(e=>{});
-
-        console.log("Waiting for post to be shared");
-        await page.waitForXPath(
-          `/html/body/div[6]/div[2]/div/div/div/div[2]/div[1]/div/div/div/h2`,
-          { timeout: 60000 }
-        );
 
 
         console.log("Post has been shared!");
