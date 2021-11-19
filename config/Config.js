@@ -31,6 +31,7 @@ module.exports = {
     "miscatculations",
     "youseeingthisshit",
     "TILI",
+    "thisismylifenow",
     "watchdogswoofinside",
     "WatchPeopleDieInside",
     "whatswrongwithyourcat",
