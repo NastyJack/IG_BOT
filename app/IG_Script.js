@@ -180,7 +180,7 @@ let isNewUpload = false,
 
         await page.waitForXPath(
           `/html/body/div[6]/div[2]/div/div/div/div[2]/div[1]/div/div/div/h2`,
-          { timeout: 600000 }
+          { timeout: 120000 }
         );
 
         //attempt to close login save prompt
