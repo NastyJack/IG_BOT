@@ -163,7 +163,7 @@ let isNewUpload = false,
         //click Text area
         Helpers.ClickButton(
           page,
-          `/html/body/div[6]/div[2]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div[1]`
+          `/html/body/div[6]/div[2]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div[1]/textarea`
         );
         await page.waitForTimeout(1200);
 
