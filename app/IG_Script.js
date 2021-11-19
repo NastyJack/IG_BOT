@@ -137,35 +137,35 @@ let isNewUpload = false,
           page,
           `/html/body/div[6]/div[2]/div/div/div/div[2]/div[1]/div/div/div/div[1]/div/div[2]/div/button`
         );
-        await page.waitForTimeout(900);
+        await page.waitForTimeout(1200);
 
         //click Original crop
         Helpers.ClickButton(
           page,
           `/html/body/div[6]/div[2]/div/div/div/div[2]/div[1]/div/div/div/div[1]/div/div[1]/div/button[1]`
         );
-        await page.waitForTimeout(900);
+        await page.waitForTimeout(1200);
 
         //click Next
         Helpers.ClickButton(
           page,
           `/html/body/div[6]/div[2]/div/div/div/div[1]/div/div/div[2]/div/button`
         );
-        await page.waitForTimeout(900);
+        await page.waitForTimeout(1200);
 
         //click Next again
         Helpers.ClickButton(
           page,
           `/html/body/div[6]/div[2]/div/div/div/div[1]/div/div/div[2]/div/button`
         );
-        await page.waitForTimeout(900);
+        await page.waitForTimeout(1200);
 
         //click Text area
         Helpers.ClickButton(
           page,
           `/html/body/div[6]/div[2]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div[1]`
         );
-        await page.waitForTimeout(900);
+        await page.waitForTimeout(1200);
 
         //Type Post title
         await page.keyboard.type(postThis.title, { delay: 80 });
