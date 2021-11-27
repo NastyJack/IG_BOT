@@ -132,6 +132,9 @@ let isNewUpload = false,
           await fileChooser.accept([redditMediaPath]);
           await page.waitForNavigation({ waitUntil: "networkidle2" });
         } else throw "Failed to click upload file";
+
+        await page.waitForTimeout(2000);
+
         //click crop
         Helpers.ClickButton(
           page,

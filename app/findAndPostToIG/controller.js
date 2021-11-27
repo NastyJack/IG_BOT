@@ -163,8 +163,13 @@ findAndPostToIG.sendMail = async (req, res, next) => {
   }
 };
 
+
 findAndPostToIG.setPuppeteerContext = async () => {
   await IG_Script.performSetup();
 };
+
+
+
+
 
 module.exports = findAndPostToIG;
