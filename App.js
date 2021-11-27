@@ -128,6 +128,7 @@ function schedulePost(){
   let millisTillTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), triggerHours[i], triggerMinutes[i], 0, 0) - now;
   if (millisTillTime < 0) {
     skip=true
+    console.log("Skipped Trigger")
   } else console.log(`Set to make a post at ${triggerHours[i]}:${triggerMinutes[i]}`)
   if(!skip) setTimeout(makethisapost, millisTillTime);
   }
