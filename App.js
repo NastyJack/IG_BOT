@@ -140,10 +140,11 @@ function ContinuePointer(){
 now = new Date();
 if(today!==now.getDate()){
 today = now.getDate()
-let millisTillTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 55, 0, 0) - now;
+let millisTillTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 1, 15, 0, 0) - now;
 if (millisTillTime < 0) {
   millisTillTime += 86400000; 
 }
+console.log("CPMS",millisTillTime)
 setTimeout(generateTimeTrigger, millisTillTime);
 schedulePost();
 }}
