@@ -115,7 +115,7 @@ function generateHourArray(){
 generateTimeTrigger()
 schedulePost()
 
-setInterval(function() {
+setInterval(function() {  
   ContinuePointer();
   // your code goes here...
 }, 3600000 ); // one hour polling
