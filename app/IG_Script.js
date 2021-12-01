@@ -40,7 +40,7 @@ let isNewUpload = false,
               });
 
         page = await browser.newPage();
-
+        console.log("Setting up page");
         await page.setExtraHTTPHeaders({
           "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
         });
@@ -53,8 +53,9 @@ let isNewUpload = false,
           width: 1280,
           height: 720,
         });
-
+        console.log("I m attepting to open ig");
         await page.goto(`https://www.instagram.com/`);
+        console.log("I have opened ig");
         await page.waitForTimeout(3000);
       } catch (e) {
         await page.screenshot({
