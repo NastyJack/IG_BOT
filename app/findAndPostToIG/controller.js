@@ -1,8 +1,10 @@
 const fs = require("fs");
 let { IG_Script } = require("../../app/IG_Script");
+let returnTriggerVal = require("../TriggerScheduler");
 let Reddit = require("../../app/Reddit");
 let Email = require("../../helpers/Email");
 let config = require("../../config/Config");
+
 let subredditArray = config.Subreddits,
   isLoggedIn = false,
   fetchedLocalDb,
@@ -143,6 +145,36 @@ findAndPostToIG.isPosted = async (req, res, next) => {
   }
 };
 
+findAndPostToIG.returnTriggerVal = async (req, res, next) => {
+  try {
+    let timeArray = [],
+      TriggerVal = returnTriggerVal();
+    console.log("TriggerVal", TriggerVal);
+    if (process.env.passCode !== req.body.passCode) throw 400;
+    if (
+      TriggerVal.triggerHours.length > 0 &&
+      TriggerVal.triggerMinutes.length > 0
+    )
+      for (let i = 0; i < 3; i++)
+        timeArray.push(
+          `${TriggerVal.triggerHours[i]}.${TriggerVal.triggerMinutes[i]}`
+        );
+    else timeArray = [0.0, 0.0, 0.0];
+
+    res.status(200).send({ timeArray: timeArray });
+  } catch (e) {
+    if (e === 400)
+      return res.status(400).send({
+        error: "Bad Request",
+        message: "Bad Request at returnTriggerVal",
+      });
+    else {
+      console.log("Error at returnTruggerVal ", e);
+      return res.status(500).send({ error: "Internal error", message: e });
+    }
+  }
+};
+
 findAndPostToIG.sendMail = async (req, res, next) => {
   try {
     if (process.env.passCode !== req.body.passCode) throw 400;
@@ -163,13 +195,8 @@ findAndPostToIG.sendMail = async (req, res, next) => {
   }
 };
 
-
 findAndPostToIG.setPuppeteerContext = async () => {
   await IG_Script.performSetup();
 };
-
-
-
-
 
 module.exports = findAndPostToIG;
