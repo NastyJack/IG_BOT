@@ -107,7 +107,6 @@ let isNewUpload = false,
         });
         Email.Mail(e, "performLogin");
         console.log("Error occured at performLogin", e);
-        //   browser.close();
       }
     },
     performUpload: async function (postThis) {
@@ -207,7 +206,7 @@ let isNewUpload = false,
           path: screenshotPath,
         });
         Email.Mail(e, "performUpload");
-
+        browser.close();
         console.log("Error occured at performUpload", e);
       }
     },

@@ -9,7 +9,7 @@ Helpers.ClickButton = async function (page, xPath) {
       xPath === `/html/body/div[5]/div/div/div/div[3]/button[2]` ||
       xPath === `/html/body/div[1]/section/main/div/div/div/div`
     )
-      console.log("Save settings prompt did not appear. Resuming...");
+      console.log("Prompts did not appear. Resuming...");
     else console.log("Failed to click button @", xPath);
   }
 };
