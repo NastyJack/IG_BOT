@@ -43,7 +43,7 @@ let isNewUpload = false,
         await page.setExtraHTTPHeaders({
           "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
         });
-
+        console.log("Created page instance");
         await page.setUserAgent(
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
         );
