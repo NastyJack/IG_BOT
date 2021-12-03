@@ -35,9 +35,11 @@ let isNewUpload = false,
                     "this.extensionPathBuildPath",
                   "--load-extension=" + "this.extensionPathBuildPath",
                 ],
+                pipe: true,
                 headless: true,
                 executablePath: "/usr/bin/chromium-browser",
               });
+
         console.log("Preparing pupetteer");
         page = await browser.newPage();
         console.log("Setting HTTP Header");
