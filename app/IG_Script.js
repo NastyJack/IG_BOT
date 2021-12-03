@@ -38,7 +38,7 @@ let isNewUpload = false,
                 headless: true,
                 executablePath: "/usr/bin/chromium-browser",
               });
-
+        console.log("Preparing pupetteer");
         page = await browser.newPage();
         await page.setExtraHTTPHeaders({
           "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
