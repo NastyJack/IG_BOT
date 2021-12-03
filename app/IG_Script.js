@@ -52,7 +52,9 @@ let isNewUpload = false,
           width: 1280,
           height: 720,
         });
+        console.log("Opening URL");
         await page.goto(`https://www.instagram.com/`);
+        console.log("Browser Ready");
         await page.waitForTimeout(3000);
       } catch (e) {
         await page.screenshot({

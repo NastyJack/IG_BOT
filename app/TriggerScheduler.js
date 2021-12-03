@@ -53,8 +53,6 @@ function generateHourArray() {
 }
 
 //=====================
-generateTimeTrigger();
-schedulePost();
 
 setInterval(function () {
   ContinuePointer();
