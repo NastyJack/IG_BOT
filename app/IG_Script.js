@@ -69,32 +69,27 @@ let isNewUpload = false,
 
     performLogin: async function () {
       let username = process.env.IG_USERNAME,
-        password = process.env.IG_PASSWORD,
-        ignoreLogin = false;
+        password = process.env.IG_PASSWORD;
       try {
         isNewUpload = false;
         console.log("\n\n Logging In...");
 
         //click input to start typing
+        // await Helpers.ClickButton(
+        //   page,
+        //   `/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div/div[1]/div`
+        // );
+        await page.type("input[name=username]", username, { delay: 80 });
+        await page.type("input[name=password]", password, { delay: 80 });
+        await page.keyboard.press("Enter");
+        await page.waitForNavigation({ waitUntil: "networkidle2" });
+        await page.waitForTimeout(1000);
+
         await Helpers.ClickButton(
           page,
-          `/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div/div[1]/div`
-        ).catch((e) => {
-          ignoreLogin = true;
-        });
+          `/html/body/div[1]/section/main/div/div/div/div`
+        ).catch();
 
-        if (ignoreLogin) {
-          await page.type("input[name=username]", username, { delay: 80 });
-          await page.type("input[name=password]", password, { delay: 80 });
-          await page.keyboard.press("Enter");
-          await page.waitForNavigation({ waitUntil: "networkidle2" });
-          await page.waitForTimeout(1000);
-
-          await Helpers.ClickButton(
-            page,
-            `/html/body/div[1]/section/main/div/div/div/div`
-          ).catch();
-        } else console.log("Skipping Login flow...");
         await page.waitForTimeout(5000);
 
         let [notNow] = await page.$x("//button[contains(., 'Not Now')]");
