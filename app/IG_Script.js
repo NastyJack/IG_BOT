@@ -94,7 +94,7 @@ let isNewUpload = false,
             page,
             `/html/body/div[1]/section/main/div/div/div/div`
           ).catch();
-        }
+        } else console.log("Skipping Login flow...");
         await page.waitForTimeout(5000);
 
         let [notNow] = await page.$x("//button[contains(., 'Not Now')]");
