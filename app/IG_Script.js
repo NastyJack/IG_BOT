@@ -40,6 +40,7 @@ let isNewUpload = false,
               });
         console.log("Preparing pupetteer");
         page = await browser.newPage();
+        console.log("Setting HTTP Header");
         await page.setExtraHTTPHeaders({
           "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
         });
@@ -173,6 +174,7 @@ let isNewUpload = false,
         //Type Post title
         await page.keyboard.type(postThis.title, { delay: 80 });
 
+        await page.waitForTimeout(1200);
         //click Share
         Helpers.ClickButton(
           page,
