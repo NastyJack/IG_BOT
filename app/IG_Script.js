@@ -114,6 +114,10 @@ let isNewUpload = false,
         if (!isNewUpload) throw "Not a fresh upload. Skipping upload.";
         console.log("Running upload script...");
 
+        //Click Not Now if propmt re-appears
+        let [notNow] = await page.$x("//button[contains(., 'Not Now')]");
+        if (notNow) notNow.click();
+
         //Click + button.
         await Helpers.ClickButton(
           page,
