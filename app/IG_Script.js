@@ -35,29 +35,23 @@ let isNewUpload = false,
                     "this.extensionPathBuildPath",
                   "--load-extension=" + "this.extensionPathBuildPath",
                 ],
-                pipe: true,
                 headless: true,
                 executablePath: "/usr/bin/chromium-browser",
               });
 
         console.log("Preparing pupetteer");
         page = await browser.newPage();
-        console.log("Setting HTTP Header");
         await page.setExtraHTTPHeaders({
           "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
         });
-        console.log("Created page instance");
         await page.setUserAgent(
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
         );
-
         await page.setViewport({
           width: 1280,
           height: 720,
         });
-        console.log("Opening URL");
         await page.goto(`https://www.instagram.com/`);
-        console.log("Browser Ready");
         await page.waitForTimeout(3000);
       } catch (e) {
         await page.screenshot({
