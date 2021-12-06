@@ -1,7 +1,7 @@
 let Email = require("../helpers/Email");
 let axios = require("axios").default;
 let now = new Date(),
-  today = now.getDate(),
+  today = 0,
   triggerFactor = 3,
   timeCaptured = [],
   currentPointer = 0,
