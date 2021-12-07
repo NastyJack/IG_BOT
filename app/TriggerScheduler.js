@@ -62,7 +62,6 @@ setInterval(function () {
 
 function schedulePost() {
   let skip = false;
-  triggerFactor = 1;
   for (i = 0; i < triggerFactor; i++) {
     today = now.getDate();
     let millisTillTime =
@@ -70,10 +69,8 @@ function schedulePost() {
         now.getFullYear(),
         now.getMonth(),
         now.getDate(),
-        15,
-        6,
-        // triggerHours[i],
-        // triggerMinutes[i],
+        triggerHours[i],
+        triggerMinutes[i],
         0,
         0
       ) - now;
