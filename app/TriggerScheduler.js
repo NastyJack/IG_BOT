@@ -62,6 +62,7 @@ setInterval(function () {
 
 function schedulePost() {
   let skip = false;
+  triggerFactor = 1;
   for (i = 0; i < triggerFactor; i++) {
     today = now.getDate();
     let millisTillTime =
@@ -69,8 +70,10 @@ function schedulePost() {
         now.getFullYear(),
         now.getMonth(),
         now.getDate(),
-        triggerHours[i],
-        triggerMinutes[i],
+        15,
+        6,
+        // triggerHours[i],
+        // triggerMinutes[i],
         0,
         0
       ) - now;
@@ -79,7 +82,9 @@ function schedulePost() {
       console.log("Skipped Trigger");
     } else
       console.log(
-        `Set to make a post at ${triggerHours[i]}:${triggerMinutes[i]}`
+        `Set to make a post at 
+        ${triggerHours[i]}:${triggerMinutes[i]}
+        `
       );
     if (!skip) setTimeout(makethisapost, millisTillTime);
   }

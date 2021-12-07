@@ -35,7 +35,7 @@ let isNewUpload = false,
                     "this.extensionPathBuildPath",
                   "--load-extension=" + "this.extensionPathBuildPath",
                 ],
-                headless: true,
+                headless: false,
                 executablePath: "/usr/bin/chromium-browser",
               });
 
@@ -107,6 +107,11 @@ let isNewUpload = false,
       try {
         if (!isNewUpload) throw "Not a fresh upload. Skipping upload.";
         console.log("Running upload script...");
+
+        await Helpers.ClickButton(
+          page,
+          `/html/body/div[1]/section/main/div/div/div/div`
+        ).catch();
 
         //Click Not Now if propmt re-appears
         let [notNow] = await page.$x("//button[contains(., 'Not Now')]");
