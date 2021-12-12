@@ -118,10 +118,6 @@ let isNewUpload = false,
       try {
         if (!isNewUpload) throw "Not a fresh upload. Skipping upload.";
         console.log("Running upload script...");
-       
-        await page.screenshot({
-          path: screenshotPath,
-        });
 
         await Helpers.ClickButton(
           page,
@@ -142,7 +138,7 @@ let isNewUpload = false,
         console.log("clicking upload");
 
         let [uploadButton] = await page.$x(
-          "//button[contains(., 'Select From Computer')]"
+          "//button[contains(., 'Select from computer')]"
         );
 
         if (uploadButton) {
@@ -221,6 +217,7 @@ let isNewUpload = false,
         Helpers.ClickButton(page, `/html/body/div[6]/div[1]/button`);
         return;
       } catch (e) {
+
         await page.screenshot({
           path: screenshotPath,
         });
