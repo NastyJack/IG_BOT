@@ -47,8 +47,6 @@ let isNewUpload = false,
 
         console.log("Preparing pupetteer");
         page = await context.newPage();
-       // page = await browser.newPage();
-        console.log("Set page instance");
         await page.setExtraHTTPHeaders({
           "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
         });
@@ -60,9 +58,7 @@ let isNewUpload = false,
           width: 1280,
           height: 720,
         });
-        console.log("Opening URL");
         await page.goto(`https://www.instagram.com/`);
-        console.log("Opened URL");
         await page.waitForTimeout(3000);
       } catch (e) {
         await page.screenshot({
@@ -70,7 +66,7 @@ let isNewUpload = false,
         });
         Email.Mail(e, "performSetup");
         console.log("Error occured at performSetup", e);
-        browser.close();
+    //    browser.close();
         return null;
       }
     },
@@ -82,11 +78,6 @@ let isNewUpload = false,
         isNewUpload = false;
         console.log("\n\n Logging In...");
 
-        //click input to start typing
-        // await Helpers.ClickButton(
-        //   page,
-        //   `/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div/div[1]/div`
-        // );
         await page.type("input[name=username]", username, { delay: 80 });
         await page.type("input[name=password]", password, { delay: 80 });
         await page.keyboard.press("Enter");
@@ -131,14 +122,14 @@ let isNewUpload = false,
         //Click + button.
         await Helpers.ClickButton(
           page,
-          `/html/body/div[1]/section/nav/div[2]/div/div/div[3]/div/div[3]/div/button`
+          `/html/body/div[1]/div/div/section/nav/div[2]/div/div/div[3]/div/div[3]/div/button`
         );
 
         await page.waitForTimeout(4000);
         console.log("clicking upload");
 
         let [uploadButton] = await page.$x(
-          "//button[contains(., 'Select from computer')]"
+          "//button[contains(., 'Select From Computer')]"
         );
 
         if (uploadButton) {
@@ -222,7 +213,7 @@ let isNewUpload = false,
           path: screenshotPath,
         });
         Email.Mail(e, "performUpload");
-        browser.close();
+       // browser.close();
         console.log("Error occured at performUpload", e);
       }
     },
