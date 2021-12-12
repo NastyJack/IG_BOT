@@ -34,13 +34,20 @@ let isNewUpload = false,
                   "--disable-extensions-except=" +
                     "this.extensionPathBuildPath",
                   "--load-extension=" + "this.extensionPathBuildPath",
+                  '--disable-accelerated-2d-canvas',
+                  '--disable-gpu',
+                  '--ignore-certificate-errors',
                 ],
                 headless: true,
                 executablePath: "/usr/bin/chromium-browser",
               });
 
+              const context = await browser.createIncognitoBrowserContext();
+              
+
         console.log("Preparing pupetteer");
-        page = await browser.newPage();
+        page = await context.newPage();
+       // page = await browser.newPage();
         console.log("Set page instance");
         await page.setExtraHTTPHeaders({
           "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
