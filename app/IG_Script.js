@@ -35,7 +35,7 @@ let isNewUpload = false,
                     "this.extensionPathBuildPath",
                   "--load-extension=" + "this.extensionPathBuildPath",
                 ],
-                headless: false,
+                headless: true,
                 executablePath: "/usr/bin/chromium-browser",
               });
 
