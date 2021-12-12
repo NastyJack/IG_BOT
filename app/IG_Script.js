@@ -118,6 +118,10 @@ let isNewUpload = false,
       try {
         if (!isNewUpload) throw "Not a fresh upload. Skipping upload.";
         console.log("Running upload script...");
+       
+        await page.screenshot({
+          path: screenshotPath,
+        });
 
         await Helpers.ClickButton(
           page,
