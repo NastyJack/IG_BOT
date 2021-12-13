@@ -20,12 +20,6 @@ findAndPostToIG.makePost = async (req, res, next) => {
   try {
     if (process.env.passCode !== req.body.passCode) throw 400;
 
-    if (process.env.NODE_ENV.trim() === "PRODUCTION") {
-      await IG_Script.performSetup();
-      await IG_Script.performLogin();
-     
-    }
-
     let EligiblePost, accessToken;
 
     accessToken = await Reddit.GenerateAccessToken();
@@ -45,6 +39,8 @@ findAndPostToIG.makePost = async (req, res, next) => {
     console.log("Got processed EligiblePost", EligiblePost);
 
     if (process.env.NODE_ENV.trim() === "PRODUCTION") {
+      await IG_Script.performSetup();
+      await IG_Script.performLogin();
       await IG_Script.performUpload(EligiblePost);
 
       res.status(200).send("Post is up on IG!");
