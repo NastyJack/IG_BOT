@@ -35,7 +35,7 @@ app.get("/", function (req, res) {
 app.listen(process.env.PORT, async () => {
   try {
     console.log("\n\n Preparing bot, please wait...");
-    await findAndPostToIGController.setPuppeteerContext();
+  //  await findAndPostToIGController.setPuppeteerContext();
 
     console.log(
       `\n IG_BOT is listening at port ${process.env.PORT} @ ${process.env.NODE_ENV}`

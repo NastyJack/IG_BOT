@@ -21,6 +21,7 @@ findAndPostToIG.makePost = async (req, res, next) => {
     if (process.env.passCode !== req.body.passCode) throw 400;
 
     if (process.env.NODE_ENV.trim() === "PRODUCTION") {
+      await IG_Script.performSetup();
       await IG_Script.performLogin();
      
     }
