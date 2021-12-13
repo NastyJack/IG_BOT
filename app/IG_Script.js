@@ -2,8 +2,7 @@ const puppeteer = require("puppeteer");
 const Helpers = require("../helpers/Helpers");
 const Email = require("../helpers/Email");
 
-let isNewUpload = false,
-  browser,
+let browser,
   page,
   redditMediaPath =
     process.platform === "win32"
@@ -66,7 +65,7 @@ let isNewUpload = false,
         });
         Email.Mail(e, "performSetup");
         console.log("Error occured at performSetup", e);
-    //    browser.close();
+        browser.close();
         return null;
       }
     },
@@ -75,7 +74,6 @@ let isNewUpload = false,
       let username = process.env.IG_USERNAME,
         password = process.env.IG_PASSWORD;
       try {
-        isNewUpload = false;
         console.log("\n\n Logging In...");
 
         await page.type("input[name=username]", username, { delay: 80 });
@@ -95,7 +93,6 @@ let isNewUpload = false,
         if (notNow) notNow.click();
 
         console.log("Logged In, Ready to Go!");
-        isNewUpload = true;
         return page;
       } catch (e) {
         await page.screenshot({
@@ -107,7 +104,6 @@ let isNewUpload = false,
     },
     performUpload: async function (postThis) {
       try {
-        if (!isNewUpload) throw "Not a fresh upload. Skipping upload.";
         console.log("Running upload script...");
 
         await Helpers.ClickButton(
@@ -206,6 +202,7 @@ let isNewUpload = false,
 
         //click close modal
         Helpers.ClickButton(page, `/html/body/div[6]/div[1]/button`);
+         browser.close();
         return;
       } catch (e) {
 
@@ -213,7 +210,7 @@ let isNewUpload = false,
           path: screenshotPath,
         });
         Email.Mail(e, "performUpload");
-       // browser.close();
+        browser.close();
         console.log("Error occured at performUpload", e);
       }
     },

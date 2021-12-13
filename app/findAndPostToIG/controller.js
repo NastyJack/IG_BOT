@@ -6,7 +6,6 @@ let Email = require("../../helpers/Email");
 let config = require("../../config/Config");
 
 let subredditArray = config.Subreddits,
-  isLoggedIn = false,
   fetchedLocalDb,
   findAndPostToIG = {},
   localDbPath =
@@ -21,9 +20,9 @@ findAndPostToIG.makePost = async (req, res, next) => {
   try {
     if (process.env.passCode !== req.body.passCode) throw 400;
 
-    if (!isLoggedIn && process.env.NODE_ENV.trim() === "PRODUCTION") {
+    if (process.env.NODE_ENV.trim() === "PRODUCTION") {
       await IG_Script.performLogin();
-      isLoggedIn = true;
+     
     }
 
     let EligiblePost, accessToken;
