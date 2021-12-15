@@ -1,5 +1,6 @@
 const fs = require("fs");
 let { IG_Script } = require("../../app/IG_Script_Inssist");
+let { enableExtension } = require("../../app/EnableExtensionsIncognito");
 let returnTriggerVal = require("../TriggerScheduler");
 let Reddit = require("../../app/Reddit");
 let Email = require("../../helpers/Email");
@@ -40,7 +41,8 @@ findAndPostToIG.makePost = async (req, res, next) => {
     console.log("Got processed EligiblePost", EligiblePost);
 
     if (process.env.NODE_ENV.trim() === "PRODUCTION") {
-      await IG_Script.performSetup();
+      await enableExtension.start();
+      //await IG_Script.performSetup();
    //   await IG_Script.performLogin();
      // await IG_Script.performUpload(EligiblePost);
 
