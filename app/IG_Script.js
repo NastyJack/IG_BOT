@@ -29,7 +29,6 @@ let browser,
                 args: [
                   "--no-sandbox",
                   "--disable-setuid-sandbox",
-                  "--disable-dev-shm-usage",
                   "--disable-extensions-except=" +
                     "this.extensionPathBuildPath",
                   "--load-extension=" + "this.extensionPathBuildPath",
@@ -38,7 +37,6 @@ let browser,
                   '--ignore-certificate-errors',
                 ],
                 headless: true,
-                executablePath: "/usr/bin/chromium-browser",
               });
 
               const context = await browser.createIncognitoBrowserContext();
