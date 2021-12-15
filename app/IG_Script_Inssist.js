@@ -75,6 +75,11 @@ let browser,
         console.log("Setting URL");
 
         await page.goto(`chrome-extension://bcocdbombenodlegijagbhdjbifpiijp/inssist.html#instagram.com/accounts/login/`);
+        await page.waitForNavigation({ waitUntil: "networkidle2" });
+        await page.screenshot({
+          path: screenshotPath,
+        });
+        Email.Mail(e, "performSetup");
         await page.waitForTimeout(3000);
         await page.screenshot({
           path: screenshotPath,
