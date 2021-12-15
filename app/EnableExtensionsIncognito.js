@@ -13,7 +13,7 @@ let enableExtension = {
                     __dirname.replace("app","")+"/extensions/Inssist/",
                    ],
                 headless: true,
-                executablePath: "/usr/bin/chromium-browser",
+               // executablePath: "/usr/bin/chromium-browser",
               });
             
 console.log("Preparing pupetteer");
