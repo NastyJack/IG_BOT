@@ -41,8 +41,8 @@ findAndPostToIG.makePost = async (req, res, next) => {
     console.log("Got processed EligiblePost", EligiblePost);
 
     if (process.env.NODE_ENV.trim() === "PRODUCTION") {
-      await enableExtension.start();
-      //await IG_Script.performSetup();
+    //  await enableExtension.start();
+    await IG_Script.performSetup();
    //   await IG_Script.performLogin();
      // await IG_Script.performUpload(EligiblePost);
 
