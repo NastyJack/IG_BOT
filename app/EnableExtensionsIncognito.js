@@ -5,6 +5,17 @@ const Email = require("../helpers/Email");
 let enableExtension = {
     start: async function () {
         try {
+
+            await puppeteer.launch({
+                args: [
+                    "--load-extension=" + __dirname.replace("app","")+"/extensions/Inssist/",
+                    "--disable-extensions-except=" +
+                    __dirname.replace("app","")+"/extensions/Inssist/",
+                   ],
+                headless: true,
+                executablePath: "/usr/bin/chromium-browser",
+              });
+            
 console.log("Preparing pupetteer");
 const extensionsPage = await browser.newPage();
 console.log("Enabling extension");
