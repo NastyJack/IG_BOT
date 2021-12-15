@@ -6,7 +6,7 @@ let enableExtension = {
     start: async function () {
         try {
 
-            await puppeteer.launch({
+         let browser =  await puppeteer.launch({
                 args: [
                     "--load-extension=" + __dirname.replace("app","")+"/extensions/Inssist/",
                     "--disable-extensions-except=" +
