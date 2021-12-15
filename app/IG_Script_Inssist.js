@@ -52,16 +52,20 @@ let browser,
                 args: [
               //    "--no-sandbox",
                 //  "--disable-setuid-sandbox",
-                  '--start-fullscreen', '--display='+xvfb._display,
+
+              //    '--start-fullscreen', '--display='+xvfb._display,
+
                //   "--disable-dev-shm-usage",
-                  "--load-extension=" + __dirname.replace("app","")+"/extensions/Inssist/",
-                  "--disable-extensions-except=" +
-                  __dirname.replace("app","")+"/extensions/Inssist/",
+
+              //    "--load-extension=" + __dirname.replace("app","")+"/extensions/Inssist/",
+           //       "--disable-extensions-except=" +
+          //        __dirname.replace("app","")+"/extensions/Inssist/",
+          
                  // '--disable-accelerated-2d-canvas',
                  // '--disable-gpu',
                  // '--ignore-certificate-errors',
                 ],
-                headless: false,
+                headless: true,
                 //executablePath: "/usr/bin/chromium-browser",
               });
 
