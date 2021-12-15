@@ -57,9 +57,9 @@ let browser,
 
                //   "--disable-dev-shm-usage",
 
-              //    "--load-extension=" + __dirname.replace("app","")+"/extensions/Inssist/",
-           //       "--disable-extensions-except=" +
-          //        __dirname.replace("app","")+"/extensions/Inssist/",
+                  "--load-extension=" + __dirname.replace("app","")+"/extensions/Inssist/",
+          //       "--disable-extensions-except=" +
+         //        __dirname.replace("app","")+"/extensions/Inssist/",
 
                  // '--disable-accelerated-2d-canvas',
                  // '--disable-gpu',
@@ -93,7 +93,7 @@ let browser,
 
         //await page.goto(`chrome-extension://bcocdbombenodlegijagbhdjbifpiijp/inssist.html#instagram.com/accounts/login/`);
         await page.goto(`https://www.google.com`);
-        console.log("URL opened");
+        console.log("URL opened ");
      //   await page.waitForNavigation({ waitUntil: "networkidle2" });
         await page.screenshot({
           path: screenshotPath,
