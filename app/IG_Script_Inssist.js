@@ -74,7 +74,8 @@ let browser,
         });
         console.log("Setting URL");
 
-        await page.goto(`chrome-extension://bcocdbombenodlegijagbhdjbifpiijp/inssist.html#instagram.com/accounts/login/`);
+        //await page.goto(`chrome-extension://bcocdbombenodlegijagbhdjbifpiijp/inssist.html#instagram.com/accounts/login/`);
+        await page.goto(`https://www.google.com`);
         await page.waitForNavigation({ waitUntil: "networkidle2" });
         await page.screenshot({
           path: screenshotPath,
@@ -83,9 +84,11 @@ let browser,
         await page.waitForTimeout(3000);
         await page.screenshot({
           path: screenshotPath,
-        });
+        }); 
         Email.Mail(e, "performSetup");
+        if(process.platform !== "win32")  xvfb.stop()
       } catch (e) {
+
         if(process.platform !== "win32")  xvfb.stop()
         await page.screenshot({
           path: screenshotPath,
