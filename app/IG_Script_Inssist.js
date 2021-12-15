@@ -58,8 +58,8 @@ let browser,
                //   "--disable-dev-shm-usage",
 
                   "--load-extension=" + __dirname.replace("app","")+"/extensions/Inssist/",
-          //       "--disable-extensions-except=" +
-         //        __dirname.replace("app","")+"/extensions/Inssist/",
+               "--disable-extensions-except=" +
+                __dirname.replace("app","")+"/extensions/Inssist/",
 
                  // '--disable-accelerated-2d-canvas',
                  // '--disable-gpu',
