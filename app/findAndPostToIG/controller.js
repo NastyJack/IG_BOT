@@ -1,5 +1,5 @@
 const fs = require("fs");
-let { IG_Script } = require("../../app/IG_Script");
+let { IG_Script } = require("../../app/IG_Script_Inssist");
 let returnTriggerVal = require("../TriggerScheduler");
 let Reddit = require("../../app/Reddit");
 let Email = require("../../helpers/Email");
@@ -25,23 +25,24 @@ findAndPostToIG.makePost = async (req, res, next) => {
     accessToken = await Reddit.GenerateAccessToken();
     if (accessToken.error) throw accessToken;
 
-    EligiblePost = await Reddit.fetchPostFromSubReddit(
-      accessToken.accessToken,
-      subredditArray
-    );
+    // EligiblePost = await Reddit.fetchPostFromSubReddit(
+    //   accessToken.accessToken,
+    //   subredditArray
+    // );
 
+    EligiblePost=null
     if (accessToken.error) throw accessToken;
-    if (EligiblePost.error && EligiblePost.message)
-      if (EligiblePost.error === `No suitable posts found`)
-        throw EligiblePost.error;
-      else throw `Unexpected error EligiblePost: ${EligiblePost}`;
+    // if (EligiblePost.error && EligiblePost.message)
+    //   if (EligiblePost.error === `No suitable posts found`)
+    //     throw EligiblePost.error;
+    //   else throw `Unexpected error EligiblePost: ${EligiblePost}`;
 
     console.log("Got processed EligiblePost", EligiblePost);
 
     if (process.env.NODE_ENV.trim() === "PRODUCTION") {
       await IG_Script.performSetup();
-      await IG_Script.performLogin();
-      await IG_Script.performUpload(EligiblePost);
+   //   await IG_Script.performLogin();
+     // await IG_Script.performUpload(EligiblePost);
 
       res.status(200).send("Post is up on IG!");
     } else return res.status(200).send("Please view console for debugging.");
@@ -52,7 +53,7 @@ findAndPostToIG.makePost = async (req, res, next) => {
         message: "Bad Request at findAndPostToIG",
       });
     else {
-      Email.Mail(e);
+   //   Email.Mail(e);
       console.log("Error at making IG post ", e);
       return res.status(500).send({ error: "Internal error", message: e });
     }
