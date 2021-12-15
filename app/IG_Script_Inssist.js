@@ -62,14 +62,18 @@ let browser,
         await page.setExtraHTTPHeaders({
           "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
         });
-
+        console.log("Setting User agent");
         await page.setUserAgent(
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
         );
+        console.log("Setting view port");
+
         await page.setViewport({
           width: 1280,
           height: 720,
         });
+        console.log("Setting URL");
+
         await page.goto(`chrome-extension://bcocdbombenodlegijagbhdjbifpiijp/inssist.html#instagram.com/accounts/login/`);
         await page.waitForTimeout(3000);
         await page.screenshot({
