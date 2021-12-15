@@ -38,16 +38,14 @@ let browser,
                   '--ignore-certificate-errors',
                 ],
                 headless: true,
-               // executablePath: "/usr/bin/chromium-browser",
+                executablePath: "/usr/bin/chromium-browser",
               });
 
-            //  const context = await browser.createIncognitoBrowserContext();
+              const context = await browser.createIncognitoBrowserContext();
               
 
         console.log("Preparing pupetteer");
-       // page = await context.newPage();
-        page = await browser.newPage();
-        console.log("Setting Headers");
+        page = await context.newPage();
         await page.setExtraHTTPHeaders({
           "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
         });

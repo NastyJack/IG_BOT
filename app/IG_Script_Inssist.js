@@ -37,10 +37,10 @@ let browser,
           })
             : await puppeteer.launch({
                 args: [
-                  "--no-sandbox",
-                  "--disable-setuid-sandbox",
+              //    "--no-sandbox",
+                //  "--disable-setuid-sandbox",
                   '--start-fullscreen', '--display='+xvfb._display,
-                  "--disable-dev-shm-usage",
+               //   "--disable-dev-shm-usage",
                   "--load-extension=" + __dirname.replace("app","")+"/extensions/Inssist/",
                   "--disable-extensions-except=" +
                   __dirname.replace("app","")+"/extensions/Inssist/",
@@ -49,7 +49,7 @@ let browser,
                  // '--ignore-certificate-errors',
                 ],
                 headless: false,
-                executablePath: "/usr/bin/chromium-browser",
+                //executablePath: "/usr/bin/chromium-browser",
               });
 
           //    const context = await browser.createIncognitoBrowserContext();
