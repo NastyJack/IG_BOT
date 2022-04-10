@@ -1,12 +1,14 @@
 const fs = require("fs");
-let { IG_Script } = require("../../app/IG_Script_Inssist");
-let { enableExtension } = require("../../app/EnableExtensionsIncognito");
+const fsp = require("fs").promises;
+const path = require("path");
 let returnTriggerVal = require("../TriggerScheduler");
 let Reddit = require("../../app/Reddit");
 let Email = require("../../helpers/Email");
 let config = require("../../config/Config");
+const Helpers = require("../../helpers/Helpers");
 
-let subredditArray = config.Subreddits,
+let sessionId,
+  subredditArray = config.Subreddits,
   fetchedLocalDb,
   findAndPostToIG = {},
   localDbPath =
@@ -21,32 +23,69 @@ findAndPostToIG.makePost = async (req, res, next) => {
   try {
     if (process.env.passCode !== req.body.passCode) throw 400;
 
-    let EligiblePost, accessToken;
+    let EligiblePost,
+      accessToken,
+      sessionIdIsValid = false,
+      isPosted = false;
 
+    console.log("\n> Fetching sessionId...");
+
+    //Fetch old seessionId
+    sessionId = await fsp
+      .readFile(
+        path.resolve(
+          __dirname.replace(`\\app\\findAndPostToIG`, ``) + "/localDb/sessionId"
+        ),
+        "utf8"
+      )
+      .catch((e) => {
+        return "createNew";
+      });
+
+    //Verify if old sessionId is still valid
+    if (sessionId !== "null" && sessionId.length > 20)
+      sessionIdIsValid = await Helpers.getTimeLineFeed(sessionId);
+
+    console.log("\n> sessionId Verified...");
+    //Generate new sessionId if old sessionId is not valid or not found
+    if (
+      process.env.NODE_ENV.trim() === "PRODUCTION" &&
+      (sessionId === "createNew" || !sessionIdIsValid)
+    ) {
+      console.log("\n> Regenerating sessionId...");
+      sessionId = await Helpers.fetchSessionId();
+
+      if (sessionId === "null") {
+        throw "sessionId is halted for login";
+      }
+    }
+
+    //Generate Post from Reddit
     accessToken = await Reddit.GenerateAccessToken();
     if (accessToken.error) throw accessToken;
 
-    // EligiblePost = await Reddit.fetchPostFromSubReddit(
-    //   accessToken.accessToken,
-    //   subredditArray
-    // );
+    EligiblePost = await Reddit.fetchPostFromSubReddit(
+      accessToken.accessToken,
+      subredditArray
+    );
 
-    EligiblePost=null
     if (accessToken.error) throw accessToken;
-    // if (EligiblePost.error && EligiblePost.message)
-    //   if (EligiblePost.error === `No suitable posts found`)
-    //     throw EligiblePost.error;
-    //   else throw `Unexpected error EligiblePost: ${EligiblePost}`;
+    if (EligiblePost.error && EligiblePost.message)
+      if (EligiblePost.error === `No suitable posts found`)
+        throw EligiblePost.error;
+      else throw `Unexpected error EligiblePost: ${EligiblePost}`;
 
-    console.log("Got processed EligiblePost", EligiblePost);
+    console.log("\n> Got processed EligiblePost", EligiblePost);
 
+    //Create Post
     if (process.env.NODE_ENV.trim() === "PRODUCTION") {
-    //  await enableExtension.start();
-    await IG_Script.performSetup();
-   //   await IG_Script.performLogin();
-     // await IG_Script.performUpload(EligiblePost);
-
-      res.status(200).send("Post is up on IG!");
+      isPosted = Helpers.createPost(sessionId, EligiblePost);
+      console.log(
+        isPosted ? "\n> Content Posted!" : "\n> Post creation failed!"
+      );
+      return isPosted
+        ? res.status(200).send("Post is up on IG!")
+        : res.status(500).send("Failed to Post");
     } else return res.status(200).send("Please view console for debugging.");
   } catch (e) {
     if (e === 400)
@@ -55,7 +94,7 @@ findAndPostToIG.makePost = async (req, res, next) => {
         message: "Bad Request at findAndPostToIG",
       });
     else {
-   //   Email.Mail(e);
+      Email.Mail(e);
       console.log("Error at making IG post ", e);
       return res.status(500).send({ error: "Internal error", message: e });
     }
@@ -192,10 +231,6 @@ findAndPostToIG.sendMail = async (req, res, next) => {
       return res.status(500).send({ error: "Internal error", message: e });
     }
   }
-};
-
-findAndPostToIG.setPuppeteerContext = async () => {
-  await IG_Script.performSetup();
 };
 
 module.exports = findAndPostToIG;
