@@ -1,7 +1,10 @@
 let { CreatorStudio } = require("../../app/IGCreatorStudio");
 let Reddit = require("../../app/Reddit");
 let config = require("../../config/Config");
-let subredditArray = config.Subreddits,
+let Helpers = require("../../helpers/Helpers");
+
+let sessionId,
+  subredditArray = config.Subreddits,
   findAndPostToIG = {};
 
 findAndPostToIG.makePost = async (req, res, next) => {
@@ -9,6 +12,8 @@ findAndPostToIG.makePost = async (req, res, next) => {
     if (process.env.passCode !== req.body.passCode) throw 400;
 
     let EligiblePost, accessToken;
+
+    if (!sessionId) await fetchSessionId();
 
     accessToken = await Reddit.GenerateAccessToken();
     if (accessToken.error) throw accessToken;
@@ -25,7 +30,8 @@ findAndPostToIG.makePost = async (req, res, next) => {
 
     console.log("Got processed EligiblePost", EligiblePost);
 
-    await CreatorStudio.RunScript(EligiblePost);
+    sessionId = await Helpers.fetchSessionId();
+    if (sessionId.error) throw sessionId.error;
 
     return res.status(200).send("IG Post made succesfully!");
   } catch (e) {
