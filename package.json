@@ -2,8 +2,12 @@
   "name": "ig_bot",
   "version": "1.0.0",
   "description": "A bot to serve endless content to humans",
-  "main": "app.js",
+  "main": "App.js",
   "scripts": {
+    "start_tw": "SET NODE_ENV=TEST&&nodemon --ignore 'lib/*.json/*.mp4' --ignore localDb",
+    "start_pw": "SET NODE_ENV=PRODUCTION&&nodemon --ignore 'lib/*.json/*.mp4' --ignore localDb",
+    "start_tl": "export NODE_ENV=TEST&&nodemon --ignore 'lib/*.json/*.mp4' --ignore localDb",
+    "start_pl": "export NODE_ENV=PRODUCTION&&nodemon --ignore 'lib/*.json/*.mp4' --ignore localDb",
     "test": "test"
   },
   "repository": {
@@ -24,14 +28,11 @@
   "homepage": "https://github.com/NastyJack/IG_BOT#readme",
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
-    "@ffprobe-installer/ffprobe": "^1.2.0",
     "axios": "^0.21.1",
-    "base64image-to-file": "^1.2.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "fluent-ffmpeg": "^2.1.2",
-    "gifshot": "^0.4.5",
-    "puppeteer": "^10.2.0",
-    "qs": "^6.10.3"
+    "form-data": "^4.0.0",
+    "nodemailer": "^6.7.0"
   }
 }

@@ -1,49 +1,17 @@
-let { default: axios } = require("axios");
-let qs = require("qs");
+const { default: axios } = require("axios");
+const fs = require("fs");
+const fsp = require("fs").promises;
+const qs = require("qs");
+const formData = require("form-data");
+const path = require("path");
 
 let Helpers = {};
 
-Helpers.ClickButton = async function (page, xPath) {
-  let [button] = await page.$x(xPath);
-  if (button) await button.click();
-  else console.log("Failed to click button @", xPath);
-};
-
-Helpers.BypassPrompt = async function (
-  page,
-  currentUrl,
-  promptType,
-  urlString
-) {
-  try {
-    let ButtonText;
-    switch (promptType) {
-      case `SaveToHomescreen`:
-        ButtonText = `Cancel`;
-        break;
-      default:
-        ButtonText = `Not Now`;
-    }
-    if (currentUrl.includes(urlString)) {
-      console.log(`Checking for ${promptType} page`);
-      await Helpers.ClickButton(page, ButtonText);
-      if (promptType !== `SaveToHomescreen`)
-        await page.waitForNavigation({
-          waitUntil: "networkidle2",
-          timeout: 10000,
-        });
-      return;
-    } else {
-      console.log(`No ${promptType} detected`);
-    }
-  } catch (e) {
-    console.log(`Caught error at BypassPrompt for ${promptType} : ${e}`);
-  }
-};
-
 Helpers.fetchSessionId = async function () {
+  let sessionId;
   try {
-    let sessionId;
+    console.log("fetching sessionId...");
+
     //Perform IG login and fetch session Id
     sessionId = await axios.post(
       `http://localhost:8081/auth/login`,
@@ -54,10 +22,51 @@ Helpers.fetchSessionId = async function () {
       })
     );
 
-    return sessionId.data.sessionId;
+    if (sessionId.status !== 200) throw sessionId;
+    sessionId = sessionId.data;
+    await fsp.writeFile(`./localDb/sessionId`, sessionId);
+    return sessionId;
   } catch (e) {
-    console.log(`Caught error at fetchSessioId ${e}`);
-    return { error: e };
+    console.log(`Caught error at fetchSessionId ${e}`);
+    await fsp.writeFile(`./localDb/sessionId`, "null");
+  }
+};
+
+Helpers.getTimeLineFeed = async function (sessionId) {
+  try {
+    let timeLineFeed = await axios.get(
+      `http://localhost:8081/auth/timeline_feed?sessionid=${sessionId}`
+    );
+
+    return timeLineFeed.status === 200 ? true : false;
+  } catch (e) {
+    console.log(`Caught error at getTimelineFeed ${e}`);
+    return false;
+  }
+};
+
+Helpers.createPost = async function (sessionId, EligiblePost) {
+  try {
+    const form = new formData();
+    form.append("sessionid", sessionId);
+    form.append("caption", EligiblePost.title);
+    form.append(
+      "file",
+      fs.createReadStream(
+        path.resolve(
+          __dirname.replace(`\\helpers`, ``) + "/localDb/RedditMedia.mp4"
+        )
+      )
+    );
+
+    axios.post("http://localhost:8081/clip/upload", form, {
+      headers: form.getHeaders(),
+    });
+
+    return true;
+  } catch (e) {
+    console.log(`Caught error at createPost ${e}`);
+    return false;
   }
 };
 

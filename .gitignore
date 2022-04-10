@@ -1,4 +1,6 @@
 node_modules
 *.env
-localdB/*.gif
-localdB/*.mp4
+localDb/RedditMedia.gif
+localDb/RedditMedia.mp4
+localDb/sessionId
+

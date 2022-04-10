@@ -3,26 +3,18 @@ const ffmpeg = require("fluent-ffmpeg");
 const config = require("../config/Config");
 
 const ffmpegInstaller = require("@ffmpeg-installer/ffmpeg");
-const ffprobe = require("@ffprobe-installer/ffprobe");
-const ffmpegGIF = require("fluent-ffmpeg")()
-  .setFfprobePath(ffprobe.path)
-  .setFfmpegPath(ffmpegInstaller.path);
+const ffmpegGIF = require("fluent-ffmpeg")().setFfmpegPath(
+  ffmpegInstaller.path
+);
 
-const util = require("util");
-const stream = require("stream");
 const fs = require("fs");
-const pipeline = util.promisify(stream.pipeline);
 
-const proc = new ffmpeg(["-preset ultrafast -threads 0"]);
 const { default: axios } = require("axios");
-const OutputVideoPath = `${__dirname.replace(
-  `\\helpers`,
-  ``
-)}\\localDb\\RedditMedia.mp4`;
-const OutputGIFPath = `${__dirname.replace(
-  `\\helpers`,
-  ``
-)}\\localDb\\RedditGIF.gif`;
+const OutputVideoPath =
+  process.platform === "win32"
+    ? `${__dirname.replace(`\\helpers`, ``)}\\localDb\\RedditMedia.mp4`
+    : `${__dirname.replace(`/helpers`, ``)}/localDb/RedditMedia.mp4`;
+const OutputGIFPath = OutputVideoPath.replace(".mp4", ".gif");
 
 ffmpeg.setFfmpegPath(ffmpegPath);
 let FFMPEG = {};
@@ -30,15 +22,18 @@ let FFMPEG = {};
 FFMPEG.combineAudioVideo = async function (url) {
   try {
     let fetchedAudio;
-    console.log(`URL > ${url}`);
+    console.log(`\n\n URL > ${url}`);
     console.log("Downloading Video, Please Wait ...");
+    url = url.replace("DASH_1080", "DASH_720");
     return await scrape(url);
 
     async function scrape(url) {
+      let proc = new ffmpeg(["-preset ultrafast -threads 0"]);
+
       return new Promise(async (resolve, reject) => {
         let mediaId;
         proc
-          .addInput(url)
+          .addInput(String(url))
           .size("1200x?")
           .aspect("4:5")
           .autopad()
@@ -49,14 +44,8 @@ FFMPEG.combineAudioVideo = async function (url) {
           })
           .on("end", () => {
             console.log("Done", `${config.base_url}/RedditMedia`);
-            resolve(`${config.base_url}/RedditMedia`);
-          })
-          .on("progress", function (progress) {
-            console.log(
-              "Processing: " + progress.percent.toFixed(1) + "% done"
-            );
+            return resolve(`${config.base_url}/RedditMedia`);
           });
-
         mediaId = url.replace(`https://v.redd.it/`, "");
         mediaId = mediaId.split("/")[0];
 
@@ -88,7 +77,7 @@ FFMPEG.combineAudioVideo = async function (url) {
 
 FFMPEG.GIFtoVideo = async function (url) {
   try {
-    let didConvert, GIF;
+    let GIF;
 
     console.log("Downloading GIF...");
     didConvert = await axios
@@ -133,9 +122,6 @@ async function ConvertGIF() {
         .on("error", (e) => {
           console.log(e);
           return reject(new Error(err));
-        })
-        .on("progress", function (progress) {
-          console.log("Processing: " + progress.percent.toFixed(1) + "% done");
         });
 
       ffmpegGIF.run();

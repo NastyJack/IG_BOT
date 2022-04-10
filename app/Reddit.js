@@ -5,7 +5,10 @@ const FFMPEG = require("../helpers/FFMPEG");
 let Reddit = {},
   dateObj = new Date(),
   today = dateObj.getDate(),
-  localDbPath = `${__dirname.replace(`app`, ``)}\\localDb\\LocalDb.json`;
+  localDbPath =
+    process.platform === "win32"
+      ? `${__dirname.replace(`app`, ``)}\\localDb\\LocalDb.json`
+      : `${__dirname.replace(`/app`, ``)}/localDb/LocalDb.json`;
 
 Reddit.GenerateAccessToken = async function () {
   try {
@@ -52,8 +55,7 @@ Reddit.GenerateAccessToken = async function () {
 Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
   let url,
     fetchedLocalDb,
-    newTitle,
-    newScore,
+    caughtErrors,
     skip,
     fileExtension,
     redditPosts,
@@ -66,6 +68,7 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
         Authorization: `Bearer ${accessToken}`,
       },
     };
+
     subredditArray = shuffleSubredditArray(subredditArray);
     //Fetch already posted data from LocalDb
     fetchedLocalDb = JSON.parse(fs.readFileSync(localDbPath, "utf8"));
@@ -79,7 +82,8 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
         skip = false;
         continue;
       }
-      if (redditPosts.status !== 200) throw redditPosts.data || redditPosts;
+      if (redditPosts && redditPosts.status !== 200)
+        throw redditPosts.data || redditPosts;
 
       redditPosts = redditPosts.data.data.children;
       for (let post of redditPosts) {
@@ -88,11 +92,7 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
           post.crosspost_parent_list &&
           post.crosspost_parent_list.length > 0
         ) {
-          newTitle = post.title;
-          newScore = post.score;
-          post = post.crosspost_parent_list[0];
-          post.title = newTitle;
-          post.score = newScore;
+          skip = true;
         }
 
         switch (subreddit) {
@@ -130,12 +130,18 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
         ) {
           if (fileExtension === `gifv`) {
             post.url = post.url.replace(".gifv", ".mp4");
-            await FFMPEG.combineAudioVideo(post.url);
+            caughtErrors = await FFMPEG.combineAudioVideo(post.url);
+            if (caughtErrors && caughtErrors.error) {
+              continue;
+            }
           }
 
           if (post.is_video) {
             post.url = post.media.reddit_video.fallback_url.split("?")[0];
-            await FFMPEG.combineAudioVideo(post.url);
+            caughtErrors = await FFMPEG.combineAudioVideo(post.url);
+            if (caughtErrors && caughtErrors.error) {
+              continue;
+            }
           } else if (fileExtension === `.gif`) {
             await FFMPEG.GIFtoVideo(post.url);
           }
@@ -174,7 +180,7 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
       }),
       "utf8"
     );
-
+    fetchedLocalDb = null;
     return eligiblePost;
   } catch (e) {
     console.log("Error occured at fetchpostFromSubreddit", e);
