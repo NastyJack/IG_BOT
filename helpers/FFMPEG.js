@@ -22,7 +22,7 @@ let FFMPEG = {};
 FFMPEG.combineAudioVideo = async function (url) {
   try {
     let fetchedAudio;
-    console.log(`\n\n URL > ${url}`);
+    //  console.log(`\n> URL : ${url}`);
     console.log("Downloading Video, Please Wait ...");
     url = url.replace("DASH_1080", "DASH_720");
     return await scrape(url);
@@ -43,7 +43,10 @@ FFMPEG.combineAudioVideo = async function (url) {
             return reject(new Error(err));
           })
           .on("end", () => {
-            console.log("Done", `${config.base_url}/RedditMedia`);
+            console.log(
+              "\n> Media Ready, posting...",
+              `${config.base_url}/RedditMedia`
+            );
             return resolve(`${config.base_url}/RedditMedia`);
           });
         mediaId = url.replace(`https://v.redd.it/`, "");
@@ -62,7 +65,7 @@ FFMPEG.combineAudioVideo = async function (url) {
           console.log("Found audio track...");
           proc.addInput(url);
         } else {
-          console.log("No audio track...");
+          console.log("No audio track");
         }
         console.log("Downloading and converting...");
 
