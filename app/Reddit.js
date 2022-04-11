@@ -97,10 +97,14 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
 
         switch (subreddit) {
           case "whatcouldgowrong":
-            post.title = post.title.replace("WCGW", "What could go wrong");
+            post.title = post.title.replace(`WCGW`, ``);
+            post.title = post.title.replace(`,`, ``);
+            post.title = post.title.replace(/when/m, ``);
             break;
           case "holdmybeer":
-            post.title = post.title.replace("HMB", "Hold my beer");
+            post.title = post.title.replace(`HMB`, ``);
+            post.title = post.title.replace(`,`, ``);
+            post.title = post.title.replace(/I/m, ``);
             break;
         }
 
