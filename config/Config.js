@@ -29,11 +29,13 @@ module.exports = {
     "youseeingthisshit",
     "TILI",
     "thisismylifenow",
+    "unexpected",
     "watchdogswoofinside",
     "WatchPeopleDieInside",
     "whatswrongwithyourcat",
     "whatswrongwithyourdog",
     "whywomenlivelonger",
+    "winstupidprizes",
     "yesyesyesno",
   ],
   hashtags: [
