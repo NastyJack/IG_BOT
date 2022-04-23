@@ -26,7 +26,8 @@ findAndPostToIG.makePost = async (req, res, next) => {
     let EligiblePost,
       accessToken,
       sessionIdIsValid = false,
-      isPosted = false;
+      isPosted = false,
+      hashtags;
 
     console.log("\n> Fetching sessionId...");
 
@@ -41,6 +42,8 @@ findAndPostToIG.makePost = async (req, res, next) => {
       .catch((e) => {
         return "createNew";
       });
+
+    hashtags = Helpers.generateHashTags();
 
     //Verify if old sessionId is still valid
     if (sessionId !== "null" && sessionId.length > 20)
@@ -79,7 +82,7 @@ findAndPostToIG.makePost = async (req, res, next) => {
 
     //Create Post
     if (process.env.NODE_ENV.trim() === "PRODUCTION") {
-      isPosted = Helpers.createPost(sessionId, EligiblePost);
+      isPosted = Helpers.createPost(sessionId, EligiblePost, hashtags);
       console.log(
         isPosted ? "\n> Content Posted!" : "\n> Post creation failed!"
       );

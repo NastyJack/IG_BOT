@@ -4,6 +4,8 @@ const fsp = require("fs").promises;
 const qs = require("qs");
 const formData = require("form-data");
 const path = require("path");
+const config = require("../config/Config");
+const { hashtags } = require("../config/Config");
 
 let Helpers = {};
 
@@ -45,8 +47,11 @@ Helpers.getTimeLineFeed = async function (sessionId) {
   }
 };
 
-Helpers.createPost = async function (sessionId, EligiblePost) {
+Helpers.createPost = async function (sessionId, EligiblePost, hashtags) {
   try {
+    EligiblePost.title =
+      EligiblePost.title + `\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.` + hashtags.join();
+
     const form = new formData();
     form.append("sessionid", sessionId);
     form.append("caption", EligiblePost.title);
@@ -68,6 +73,19 @@ Helpers.createPost = async function (sessionId, EligiblePost) {
     console.log(`Caught error at createPost ${e}`);
     return false;
   }
+};
+
+Helpers.generateHashTags = function () {
+  let min = 15,
+    max = 25,
+    hashtags = config.hashtags
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
+
+  hashtags.length = Math.floor(Math.random() * (max - min + 1) + min);
+  hashtags = hashtags.map((i) => "#" + i);
+  return hashtags;
 };
 
 module.exports = Helpers;
