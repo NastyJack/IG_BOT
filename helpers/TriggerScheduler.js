@@ -60,7 +60,7 @@ function generateHourArray() {
   //Start trigger hours from current hour ex 05:00 PM till midnight. Otherwise start from 01:00 AM
   if (isTodaysFirstRun && now.getHours() <= 22) {
     i = now.getHours();
-  } else i = 1;
+  } else i = 0;
 
   for (; i <= 22; i++) timeCaptured.push(i);
   timeCaptured = shuffle(timeCaptured);
@@ -89,9 +89,16 @@ function generateHourArray() {
 //=====================
 //This section is responsible for starting and infinitely running the script.
 
+if(isTodaysFirstRun&&now.getHours>=23&&now.getMinutes()>=5){
+let tempMillisTillTime =new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0, 05, 0, 0) - new Date()
+    console.log("CPMS 00:05",tempMillisTillTime);
+    setTimeout(generateTimeTrigger, tempMillisTillTime);
+    schedulePost();
+}
+else{
 generateTimeTrigger();
 schedulePost();
-
+}
 //Call this function every hour to check if current date != today. Setup new triggers if condition is true.
 setInterval(function () {
   ContinuePointer();
@@ -129,12 +136,12 @@ function ContinuePointer() {
   now = new Date();
   if (today !== now.getDate()) {
     today = now.getDate();
-    let millisTillTime =
-      new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 30, 0, 0) -
+      new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 05, 0, 0) -
       now;
     if (millisTillTime < 0) {
       millisTillTime += 86400000;
     }
+
     console.log("CPMS", millisTillTime);
     setTimeout(generateTimeTrigger, millisTillTime);
     schedulePost();
