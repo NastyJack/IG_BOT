@@ -58,11 +58,11 @@ function generateHourArray() {
   currentPointer = 0;
   timeCaptured = [];
   //Start trigger hours from current hour ex 05:00 PM till midnight. Otherwise start from 01:00 AM
-  if (isTodaysFirstRun && now.getHours() <= 23) {
+  if (isTodaysFirstRun && now.getHours() <= 22) {
     i = now.getHours();
   } else i = 1;
 
-  for (; i <= 23; i++) timeCaptured.push(i);
+  for (; i <= 22; i++) timeCaptured.push(i);
   timeCaptured = shuffle(timeCaptured);
 
   function shuffle(array) {
