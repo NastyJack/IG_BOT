@@ -21,8 +21,8 @@ let now = new Date(),
 function generateTimeTrigger() {
   //This section restricts posts to limit of triggerfactor.
   //Comment this snippet to allow unlimited posts.
-  if (isTodaysFirstRun) {
-    fetchedLocalDb = JSON.parse(fs.readFileSync(localDbPath, "utf8"));
+    fetchedLocalDb = JSON.parse(fs.readFileSync(localDbPath, "utf8")); 
+if (isTodaysFirstRun&&fetchedLocalDb.date===now.getDate()) {
     triggerFactor = triggerFactor - fetchedLocalDb.postDataArray.length;
     if (triggerFactor < 0) triggerFactor = 0;
   } else triggerFactor = defaultTriggerFactor;
@@ -49,7 +49,7 @@ function generateTimeTrigger() {
       Math.floor(Math.random() * (maxMin - minMin + 1) + minMin)
     );
   }
-  // console.log("triggerHours",triggerHours,"triggerMinutes",triggerMinutes)
+  // console.log("triggerHours",triggerHours,"triggerMinutes",triggerMinutes,triggerFactor)
   currentPointer = currentPointer + triggerFactor;
 }
 
