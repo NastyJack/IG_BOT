@@ -1,6 +1,7 @@
 require("dotenv").config({ path: "credentials.env" });
 const express = require("express");
 const app = express();
+let axios = require("axios").default;
 const findAndPostToIG = require("./app/findAndPostToIG/routes");
 const findAndPostToIGController = require("./app/findAndPostToIG/controller");
 const fs = require("fs");
@@ -41,5 +42,18 @@ app.listen(process.env.PORT, async () => {
     console.log("\n ERROR: Failed to login and set up puppeteer", e);
   }
 });
+
+
+makethisapost();
+
+function makethisapost() {
+  try {
+    axios.post(`http://localhost:8080/api/findAndPostToIG/makepost`, {
+      passCode: process.env.passCode,
+    });
+  } catch (e) {
+    console.log("Error occured at calling makePost", e);
+  }
+}
 
 module.exports = app;
