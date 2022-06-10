@@ -23,7 +23,7 @@ FFMPEG.combineAudioVideo = async function (url) {
   try {
     let fetchedAudio;
     //  console.log(`\n> URL : ${url}`);
-    console.log("Downloading Video, Please Wait ...");
+    console.log("Downloading Video, Please Wait ...",OutputVideoPath);
     url = url.replace("DASH_1080", "DASH_720");
     return await scrape(url);
 
@@ -37,9 +37,10 @@ FFMPEG.combineAudioVideo = async function (url) {
           .size("1200x?")
           .aspect("4:5")
           .autopad()
-          .output(OutputVideoPath)
-          .on("error", (err) => {
+          .output(OutputVideoPath)   
+          .on("error", (err, stdout, stderr) => {
             console.log("Error: " + err);
+	    console.log("\n\nstdout: ",stdout,"\nstderr: ",stderr);
             return reject(new Error(err));
           })
           .on("end", () => {
@@ -88,7 +89,7 @@ FFMPEG.GIFtoVideo = async function (url) {
       .then((response) => {
         return new Promise((resolve, reject) => {
           let writeFileEvent = response.data.pipe(
-            fs.createWriteStream(OutputGIFPath)
+            fs.createWriteStream(OutputGIFPath,{flags: 'a+'})
           );
           writeFileEvent.on("error", reject).on("close", resolve);
         });
