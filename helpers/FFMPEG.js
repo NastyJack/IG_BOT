@@ -89,7 +89,7 @@ FFMPEG.GIFtoVideo = async function (url) {
       .then((response) => {
         return new Promise((resolve, reject) => {
           let writeFileEvent = response.data.pipe(
-            fs.createWriteStream(OutputGIFPath,{flags: 'a+'})
+            fs.createWriteStream(OutputGIFPath)
           );
           writeFileEvent.on("error", reject).on("close", resolve);
         });

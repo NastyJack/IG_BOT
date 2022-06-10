@@ -57,7 +57,7 @@ function generateHourArray() {
   let i;
   currentPointer = 0;
   timeCaptured = [];
-  //Start trigger hours from current hour ex 05:00 PM till midnight. Otherwise start from 01:00 AM
+  //Start trigger hours from current hour ex 05:00 PM till midnight. Otherwise start from 00:00 AM
   if (isTodaysFirstRun && now.getHours() <= 22) {
     i = now.getHours();
   } else i = 0;

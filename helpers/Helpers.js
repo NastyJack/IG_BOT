@@ -59,7 +59,9 @@ Helpers.createPost = async function (sessionId, EligiblePost, hashtags) {
       "file",
       fs.createReadStream(
         path.resolve(
+          process.platform === "win32" ?
           __dirname.replace(`\\helpers`, ``) + "/localDb/RedditMedia.mp4"
+          : __dirname.replace(`/helpers`, ``) + "/localDb/RedditMedia.mp4"
         )
       )
     );

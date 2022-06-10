@@ -49,6 +49,7 @@ findAndPostToIG.makePost = async (req, res, next) => {
     if (sessionId !== "null" && sessionId.length > 20)
       sessionIdIsValid = await Helpers.getTimeLineFeed(sessionId);
 
+    if(sessionIdIsValid)
     console.log("\n> sessionId Verified");
     //Generate new sessionId if old sessionId is not valid or not found
     if (
