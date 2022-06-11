@@ -4,7 +4,7 @@ const FFMPEG = require("../helpers/FFMPEG");
 
 let Reddit = {},
   dateObj = new Date(),
-  today = dateObj.getDate(),
+  today,
   localDbPath =
     process.platform === "win32"
       ? `${__dirname.replace(`app`, ``)}\\localDb\\LocalDb.json`
@@ -63,6 +63,7 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
     eligiblePost = null;
 
   try {
+    today = dateObj.getDate()
     headers = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -176,14 +177,20 @@ Reddit.fetchPostFromSubReddit = async function (accessToken, subredditArray) {
       postDataArray = fetchedLocalDb.postDataArray.concat(postDataArray);
     }
 
-    fs.writeFileSync(
-      localDbPath,
-      JSON.stringify({
-        date: today,
-        postDataArray: postDataArray,
-      }),
-      "utf8"
-    );
+    // fs.writeFileSync(
+    //   localDbPath,
+    //   JSON.stringify({
+    //     date: today,
+    //     postDataArray: postDataArray,
+    //   }),
+    //   "utf8"
+    // );
+
+    
+    eligiblePost.postDataArray={
+      date: today,
+      postDataArray: postDataArray,
+    }
     fetchedLocalDb = null;
     return eligiblePost;
   } catch (e) {

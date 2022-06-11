@@ -23,13 +23,14 @@ findAndPostToIG.makePost = async (req, res, next) => {
   try {
     if (process.env.passCode !== req.body.passCode) throw 400;
 
-    let EligiblePost,
+    let postDataArray,
+      EligiblePost,
       accessToken,
       sessionIdIsValid = false,
       isPosted = false,
       hashtags;
 
-    console.log("\n> Fetching sessionId...");
+    console.log("\n> Checking sessionId...");
 
     //Fetch old seessionId
     sessionId = await fsp
@@ -49,8 +50,7 @@ findAndPostToIG.makePost = async (req, res, next) => {
     if (sessionId !== "null" && sessionId.length > 20)
       sessionIdIsValid = await Helpers.getTimeLineFeed(sessionId);
 
-    if(sessionIdIsValid)
-    console.log("\n> sessionId Verified");
+    if (sessionIdIsValid) console.log("\n> sessionId Verified");
     //Generate new sessionId if old sessionId is not valid or not found
     if (
       process.env.NODE_ENV.trim() === "PRODUCTION" &&
@@ -73,6 +73,9 @@ findAndPostToIG.makePost = async (req, res, next) => {
       subredditArray
     );
 
+    postDataArray = EligiblePost.postDataArray;
+    delete EligiblePost.postDataArray;
+
     if (accessToken.error) throw accessToken;
     if (EligiblePost.error && EligiblePost.message)
       if (EligiblePost.error === `No suitable posts found`)
@@ -83,13 +86,19 @@ findAndPostToIG.makePost = async (req, res, next) => {
 
     //Create Post
     if (process.env.NODE_ENV.trim() === "PRODUCTION") {
-      isPosted = Helpers.createPost(sessionId, EligiblePost, hashtags);
-      console.log(
-        isPosted ? "\n> Content Posted!" : "\n> Post creation failed!"
-      );
-      return isPosted
-        ? res.status(200).send("Post is up on IG!")
-        : res.status(500).send("Failed to Post");
+      //isPosted = Helpers.createPost(sessionId, EligiblePost, hashtags);
+      isPosted = true;
+      if (isPosted) {
+        console.log("\n> Content Posted!");
+        postDataArray;
+
+        //Write to JSON file, only if content is successfully posted.
+        fs.writeFileSync(localDbPath, JSON.stringify(postDataArray), "utf8");
+        res.status(200).send("Post is up on IG!");
+      } else {
+        console.log("\n> Post creation failed!");
+        res.status(500).send("Failed to Post");
+      }
     } else return res.status(200).send("Please view console for debugging.");
   } catch (e) {
     if (e === 400)

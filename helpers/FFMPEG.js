@@ -23,7 +23,7 @@ FFMPEG.combineAudioVideo = async function (url) {
   try {
     let fetchedAudio;
     //  console.log(`\n> URL : ${url}`);
-    console.log("Downloading Video, Please Wait ...",OutputVideoPath);
+    console.log("Downloading Video, Please Wait ...");
     url = url.replace("DASH_1080", "DASH_720");
     return await scrape(url);
 
@@ -37,10 +37,10 @@ FFMPEG.combineAudioVideo = async function (url) {
           .size("1200x?")
           .aspect("4:5")
           .autopad()
-          .output(OutputVideoPath)   
+          .output(OutputVideoPath)
           .on("error", (err, stdout, stderr) => {
             console.log("Error: " + err);
-	    console.log("\n\nstdout: ",stdout,"\nstderr: ",stderr);
+            console.log("\n\nstdout: ", stdout, "\nstderr: ", stderr);
             return reject(new Error(err));
           })
           .on("end", () => {
@@ -110,7 +110,7 @@ async function ConvertGIF() {
   try {
     return new Promise(async (resolve, reject) => {
       console.log("Converting GIF, Please Wait ...");
-      console.log("gif to convert path ", OutputGIFPath);
+      //console.log("gif to convert path ", OutputGIFPath);
       ffmpegGIF
         .input(OutputGIFPath)
         .outputOptions(["-movflags", "faststart", "-pix_fmt", "yuv420p"])
