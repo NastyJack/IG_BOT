@@ -14,7 +14,6 @@ module.exports = {
     "animalsdoingstuff",
     "animalsthatlovemagic",
     "animaltextgifs",
-    "anormaldayinrussia",
     "blackmagicfuckery",
     "dumbasseswithlighters",
     "eyebleach",
