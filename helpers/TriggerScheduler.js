@@ -10,6 +10,7 @@ let now = new Date(),
   triggerHours = [],
   triggerMinutes = [],
   isTodaysFirstRun = true,
+  millisTillTime=0,
   maxMin = 59,
   minMin = 10,
   fetchedLocalDb,
@@ -102,14 +103,14 @@ schedulePost();
 //Call this function every hour to check if current date != today. Setup new triggers if condition is true.
 setInterval(function () {
   ContinuePointer();
-}, 3600000);
+},3600000);
 //=====================
 
 function schedulePost() {
   let skip = false;
   for (let i = 0; i < triggerFactor; i++) {
     today = now.getDate();
-    let millisTillTime =
+     millisTillTime =
       new Date(
         now.getFullYear(),
         now.getMonth(),
@@ -136,13 +137,13 @@ function ContinuePointer() {
   now = new Date();
   if (today !== now.getDate()) {
     today = now.getDate();
-      new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 05, 0, 0) -
-      now;
+    millisTillTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 05, 0, 0) - now;
     if (millisTillTime < 0) {
       millisTillTime += 86400000;
     }
-
-    console.log("CPMS", millisTillTime);
+    let hrsPending = millisTillTime/1000
+    hrsPending = hrsPending/3600
+    console.log("CPMS", hrsPending);
     setTimeout(generateTimeTrigger, millisTillTime);
     schedulePost();
   }
