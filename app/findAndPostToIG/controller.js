@@ -86,8 +86,7 @@ findAndPostToIG.makePost = async (req, res, next) => {
 
     //Create Post
     if (process.env.NODE_ENV.trim() === "PRODUCTION") {
-      //isPosted = Helpers.createPost(sessionId, EligiblePost, hashtags);
-      isPosted = true;
+      isPosted = Helpers.createPost(sessionId, EligiblePost, hashtags);
       if (isPosted) {
         console.log("\n> Content Posted!");
         postDataArray;
