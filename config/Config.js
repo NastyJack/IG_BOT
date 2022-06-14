@@ -22,7 +22,7 @@ module.exports = {
     "funnyvideos",
     "holdmybeer",
     "instant_regret",
-    "kidsarefuckingstupid",
+   // "kidsarefuckingstupid",
     "likeus",
     "miscatculations",
     "youseeingthisshit",
@@ -34,7 +34,7 @@ module.exports = {
     "whatswrongwithyourcat",
     "whatswrongwithyourdog",
     "whywomenlivelonger",
-    "winstupidprizes",
+   // "winstupidprizes",
     "yesyesyesno",
   ],
   hashtags: [
