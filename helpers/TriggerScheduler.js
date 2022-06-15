@@ -90,7 +90,7 @@ function generateHourArray() {
 //=====================
 //This section is responsible for starting and infinitely running the script.
 
-if(isTodaysFirstRun&&now.getHours>=23&&now.getMinutes()>=5){
+if(isTodaysFirstRun&&now.getHours()>=23&&now.getMinutes()>=5){
 let tempMillisTillTime =new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0, 05, 0, 0) - new Date()
     console.log("CPMS 00:05",tempMillisTillTime);
     setTimeout(generateTimeTrigger, tempMillisTillTime);
