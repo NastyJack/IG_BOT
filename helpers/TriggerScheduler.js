@@ -63,7 +63,12 @@ function generateHourArray() {
     i = now.getHours();
   } else i = 0;
 
-  for (; i <= 22; i++) timeCaptured.push(i);
+  i=0;
+
+  for (; i <= 
+    //22
+    0
+    ; i++) timeCaptured.push(i);  
   timeCaptured = shuffle(timeCaptured);
 
   function shuffle(array) {
