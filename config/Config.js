@@ -24,7 +24,7 @@ module.exports = {
     "instant_regret",
     "likeus",
     "miscatculations",
-    "youseeingthisshit",
+    "rarepuppers",
     "TILI",
     "thisismylifenow",
     "unexpected",
@@ -35,6 +35,7 @@ module.exports = {
     "whatswrongwithyourdog",
     "whywomenlivelonger",
     "yesyesyesno",
+    "youseeingthisshit",
   ],
   hashtags: [
     "lol",
