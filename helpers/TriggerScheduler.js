@@ -145,7 +145,10 @@ function ContinuePointer() {
     hrsPending = hrsPending/3600
     console.log("CPMS", hrsPending);
     setTimeout(generateTimeTrigger, millisTillTime);
-    schedulePost();
+    setTimeout(schedulePost, millisTillTime+60000); //call schedulePost after 1 minute after generateTimeTrigger
+    //setTimeout(generateTimeTrigger, millisTillTime);
+    //schedulePost()
+    
   }
 }
 
