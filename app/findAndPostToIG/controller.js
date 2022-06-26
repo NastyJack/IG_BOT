@@ -46,12 +46,15 @@ findAndPostToIG.makePost = async (req, res, next) => {
 
     hashtags = Helpers.generateHashTags();
 
+    let x;
     //Verify if old sessionId is still valid
     if (sessionId !== "null" && sessionId.length > 20)
-      sessionIdIsValid = await Helpers.getTimeLineFeed(sessionId);
+    { sessionIdIsValid = await Helpers.getTimeLineFeed(sessionId);
+      x = await Helpers.getTimeLineFeed(sessionId);
+    }
 
 
-      console.log("sessionIdIsValid status", sessionIdIsValid);
+      console.log("sessionIdIsValid status", sessionIdIsValid,"|",x,"|",sessionId);
     if (sessionIdIsValid) console.log("\n> sessionId Verified");
     //Generate new sessionId if old sessionId is not valid or not found
     if (
@@ -91,7 +94,6 @@ findAndPostToIG.makePost = async (req, res, next) => {
       isPosted = Helpers.createPost(sessionId, EligiblePost, hashtags);
       if (isPosted) {
         console.log("\n> Content Posted!");
-        postDataArray;
 
         //Write to JSON file, only if content is successfully posted.
         fs.writeFileSync(localDbPath, JSON.stringify(postDataArray), "utf8");

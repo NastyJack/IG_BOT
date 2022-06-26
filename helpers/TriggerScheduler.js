@@ -92,9 +92,12 @@ function generateHourArray() {
 
 if(isTodaysFirstRun&&now.getHours()>=23&&now.getMinutes()>=5){
 let tempMillisTillTime =new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0, 05, 0, 0) - new Date()
-    console.log("CPMS 00:05",tempMillisTillTime);
+    let cpms=tempMillisTillTime/1000
+    console.log("CPMS 00:05",cpms/60);
     setTimeout(generateTimeTrigger, tempMillisTillTime);
-    schedulePost();
+    setTimeout(schedulePost, tempMillisTillTime+30000);
+
+
 }
 else{
 generateTimeTrigger();
@@ -145,9 +148,7 @@ function ContinuePointer() {
     hrsPending = hrsPending/3600
     console.log("CPMS", hrsPending);
     setTimeout(generateTimeTrigger, millisTillTime);
-    setTimeout(schedulePost, millisTillTime+60000); //call schedulePost after 1 minute after generateTimeTrigger
-    //setTimeout(generateTimeTrigger, millisTillTime);
-    //schedulePost()
+    schedulePost()
     
   }
 }
