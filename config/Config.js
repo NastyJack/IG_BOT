@@ -20,7 +20,7 @@ module.exports = {
     "funny",
     "funnyanimals",
     "funnyvideos",
-    "holdmybeer",
+    //"holdmybeer",
     "instant_regret",
     "likeus",
     "miscatculations",
