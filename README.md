@@ -17,7 +17,7 @@ npm i
 ```
 
 ```sh
-npm run start
+npm run start_pl
 ```
 
 ## Author
