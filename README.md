@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to Pupppeteer-AutoMarker 👋</h1>
+<h1 align="center">Welcome to IG_BOT 👋</h1>
 
 <p align="center">
   <img src="https://github.com/NastyJack/IG_BOT/assets/44137857/808668d4-1490-474d-b9bf-98a3ddbd0a52" />
